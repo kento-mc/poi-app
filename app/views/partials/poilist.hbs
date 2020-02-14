@@ -1,0 +1,27 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="six wide column">
+            <img src="images/homer5.jpg" class="ui medium image">
+        </aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Method donated</th>
+                    <th>Contributer</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each POIs}}
+                    <tr>
+                        <td> {{amount}} </td>
+                        <td> {{method}} </td>
+                        <td> {{contributer.firstName}} {{contributer.lastName}} </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </article>
+    </div>
+</section>

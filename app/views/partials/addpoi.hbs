@@ -1,0 +1,38 @@
+<section class="ui raised segment">
+    <div class="ui grid ">
+        <div class="ui form six wide column">
+            <div class="ui stacked segment">
+                <form action="/addpoi" method="POST">
+                    <div class="ui dropdown" name="amount">
+                        <input type="hidden" name="amount">
+                        <div class="text">Select Amount</div>
+                        <i class="ui dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item">50</div>
+                            <div class="item">100</div>
+                            <div class="item">1000</div>
+                        </div>
+                    </div>
+                    <div class="grouped inline fields">
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="method" value="paypal">
+                                <label>Paypal</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="method" value="direct">
+                                <label>Direct</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="ui blue submit button">Donate</button>
+                </form>
+            </div>
+        </div>
+        <aside class="six wide column">
+            <img src="images/homer4.jpeg" class="ui medium image">
+        </aside>
+    </div>
+</section>
