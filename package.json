@@ -1,0 +1,31 @@
+{
+  "name": "poi-app",
+  "version": "1.0.0",
+  "description": "A Point of Interest Web App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kento-mc/poi-app.git"
+  },
+  "author": "Kent Chadwick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kento-mc/poi-app/issues"
+  },
+  "homepage": "https://github.com/kento-mc/poi-app#readme",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1",
+    "@hapi/inert": "^6.0.1",
+    "@hapi/vision": "^6.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
+}
