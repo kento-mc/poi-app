@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/kento-mc/poi-app#readme",
   "dependencies": {
+    "@hapi/boom": "^9.0.0",
     "@hapi/cookie": "^11.0.0",
     "@hapi/hapi": "^19.1.1",
     "@hapi/inert": "^6.0.1",

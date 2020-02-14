@@ -2,6 +2,7 @@
 
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
+const Boom = require('@hapi/boom');
 
 const userSchema = new Schema({
     firstName: String,
@@ -16,7 +17,10 @@ userSchema.statics.findByEmail = function(email) {
 
 userSchema.methods.comparePassword = function(candidatePassword) {
     const isMatch = this.password === candidatePassword;
-    return isMatch;
+    if (!isMatch) {
+        throw Boom.unauthorized('Password mismatch');
+    }
+    return this;
 };
 
 module.exports = Mongoose.model('User', userSchema);
