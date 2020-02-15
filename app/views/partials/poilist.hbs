@@ -7,16 +7,16 @@
             <table class="ui celled table segment">
                 <thead>
                 <tr>
-                    <th>Amount</th>
-                    <th>Method donated</th>
+                    <th>Name</th>
+                    <th>Description</th>
                     <th>Contributer</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#each POIs}}
+                {{#each pointsOfInterest}}
                     <tr>
-                        <td> {{amount}} </td>
-                        <td> {{method}} </td>
+                        <td> {{name}} </td>
+                        <td> {{description}} </td>
                         <td> {{contributer.firstName}} {{contributer.lastName}} </td>
                     </tr>
                 {{/each}}

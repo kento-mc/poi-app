@@ -3,31 +3,10 @@
         <div class="ui form six wide column">
             <div class="ui stacked segment">
                 <form action="/addpoi" method="POST">
-                    <div class="ui dropdown" name="amount">
-                        <input type="hidden" name="amount">
-                        <div class="text">Select Amount</div>
-                        <i class="ui dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item">50</div>
-                            <div class="item">100</div>
-                            <div class="item">1000</div>
-                        </div>
-                    </div>
-                    <div class="grouped inline fields">
-                        <div class="field">
-                            <div class="ui radio checkbox">
-                                <input type="radio" name="method" value="paypal">
-                                <label>Paypal</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui radio checkbox">
-                                <input type="radio" name="method" value="direct">
-                                <label>Direct</label>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="ui blue submit button">Donate</button>
+                    <h3 class="ui header">Add a new Point of Interest</h3>
+                    <div class="field"><label>Name</label> <input placeholder="point of interest" type="text" name="name" /></div>
+                    <div class="field"><label>Description</label> <input placeholder="description" type="text" name="description" /></div>
+                    <button class="ui blue submit button">Save</button>
                 </form>
             </div>
         </div>

@@ -1,4 +1,4 @@
-const POIs = require('./app/controllers/POIs');
+const PointsOfInterest = require('./app/controllers/pointsOfInterest');
 const Accounts = require('./app/controllers/accounts');
 
 module.exports = [
@@ -11,9 +11,9 @@ module.exports = [
     { method: 'GET', path: '/settings', config: Accounts.showSettings },
     { method: 'POST', path: '/settings', config: Accounts.updateSettings },
 
-    { method: 'GET', path: '/home', config: POIs.home },
-    { method: 'GET', path: '/report', config: POIs.report },
-    { method: 'POST', path: '/donate', config: POIs.addPOI },
+    { method: 'GET', path: '/home', config: PointsOfInterest.home },
+    { method: 'GET', path: '/report', config: PointsOfInterest.report },
+    { method: 'POST', path: '/addpoi', config: PointsOfInterest.addPOI },
 
     {
         method: 'GET',
