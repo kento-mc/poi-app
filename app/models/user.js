@@ -9,7 +9,10 @@ const userSchema = new Schema({
     lastName: String,
     email: String,
     password: String,
-    contributedPOIs: [mongoose.ObjectId]
+    contributedPOIs: [{
+        type: Schema.Types.ObjectId,
+        ref: 'pointsofinterest'
+    }]
 });
 
 userSchema.statics.findByEmail = function(email) {

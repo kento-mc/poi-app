@@ -22,9 +22,12 @@
     "@hapi/hapi": "^19.1.1",
     "@hapi/inert": "^6.0.1",
     "@hapi/vision": "^6.0.0",
+    "cloudinary": "^1.19.0",
     "dotenv": "^8.2.0",
     "handlebars": "^4.7.3",
-    "mongoose": "^5.9.1"
+    "mongoose": "^5.9.1",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^2.2.1"
   },
   "devDependencies": {
     "prettier": "^1.19.1"
