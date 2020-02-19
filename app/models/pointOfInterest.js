@@ -6,9 +6,7 @@ const Schema = Mongoose.Schema;
 const poiSchema = new Schema({
     name: String,
     description: String,
-    image: {
-        type: Schema.Types.Mixed,
-    },
+    imageURL: String,
     contributer: {
         type: Schema.Types.ObjectId,
         ref: 'User'

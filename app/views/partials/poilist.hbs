@@ -10,6 +10,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Contributer</th>
+                    <th>Image</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -18,6 +19,11 @@
                         <td> {{name}} </td>
                         <td> {{description}} </td>
                         <td> {{contributer.firstName}} {{contributer.lastName}} </td>
+                        <td>
+                            <a href={{imageURL}}>
+                                <img alt="poi thumbnail" src={{imageURL}} width="150" height="70">
+                            </a>
+                        </td>
                     </tr>
                 {{/each}}
                 </tbody>
