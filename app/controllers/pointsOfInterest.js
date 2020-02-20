@@ -46,7 +46,7 @@ const PointsOfInterest = {
 
             if (data.image) {
                 const name = data.image.hapi.filename;
-                const path = `../../uploads/${name}`;
+                const path = `./uploads/${name}`;
                 const file = fs.createWriteStream(path);
 
                 file.on('error', (err) => console.error(err));
