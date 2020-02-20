@@ -4,19 +4,7 @@ require('dotenv').config();
 const fs = require('fs');
 const PointOfInterest = require('../models/pointOfInterest');
 const User = require('../models/user');
-//const ImageUpload = require('../../imageConfig');
 const cloudinary = require('cloudinary').v2;
-//const cloudinaryStorage = require('multer-storage-cloudinary');
-//const multer = require('multer');
-
-/*const imageStorage = cloudinaryStorage({
-    cloudinary: cloudinary,
-    folder: "demo",
-    allowedFormats: ["jpg", "png"]
-})*/
-
-//const imageParser =  multer({storage: imageStorage});
-//const upload = multer({dest: 'uploads/'});
 
 const PointsOfInterest = {
     home: {
@@ -76,7 +64,6 @@ const PointsOfInterest = {
                         });
                     }
                 });
-
             } // TODO Handle uploads with no image
 
             const newPOI = new PointOfInterest({

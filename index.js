@@ -5,7 +5,6 @@ require('dotenv').config();
 require('./app/models/db');
 const cloudinary = require('cloudinary').v2;
 
-
 cloudinary.config({
     cloud_name: process.env.cloud_name,
     api_key: process.env.cloud_api_key,
