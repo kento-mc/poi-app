@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 require('dotenv').config();
 const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
 const PointOfInterest = require('../models/pointOfInterest');
 const User = require('../models/user');
-const cloudinary = require('cloudinary').v2;
 
 const PointsOfInterest = {
     home: {
