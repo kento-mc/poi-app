@@ -37,42 +37,52 @@ const PointsOfInterest = {
         }
     },
     addPOI: {
-/*        pre: [
-            { method: upload.single('poiImage'), assign: 'm1' }
-            //{ method: imageParser.single('poiImage'), assign: 'm1'}
-        ],*/
-/*        payload: {
-            output: 'stream',
-            parse: true,
-            //allow: 'multipart/form-data',
-        },*/
         handler: async function (request, h) {
-              const id = request.auth.credentials.id;
-              const user = await User.findById(id);
-              const data = request.payload;
-              let cloudImage = {};
-              if (data.image) {
-                  cloudImage = await cloudinary.uploader.upload(data.image.path, (error, result) => {
-                      console.log(result, error);
-                      console.log(cloudImage.url);
-                  });
-              } // TODO Handle uploads with no image
-              const newPOI = new PointOfInterest({
-                  name: data.name,
-                  description: data.description,
-                  contributer: user._id,
-                  imageURL: cloudImage.url
-              })
-              await newPOI.save();
-              console.log();
-              return h.redirect('/report');
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            const data = request.payload;
+            let cloudImage = {};
+
+
+            if (data.image) {
+                const name = data.image.hapi.filename;
+                const path = `../../uploads/${name}`;
+                const file = fs.createWriteStream(path);
+
+                file.on('error', (err) => console.error(err));
+
+                data.image.pipe(file);
+
+                data.image.on('end', (err) => {
+                    const ret = {
+                        filename: data.image.hapi.filename,
+                        headers: data.image.hapi.headers
+                    }
+                    return JSON.stringify(ret);
+                })
+            }
+
+
+            /*if (data.image) {
+              cloudImage = await cloudinary.uploader.upload(data.image.path, (error, result) => {
+                  console.log(result, error);
+                  console.log(cloudImage.url);
+              });
+            } // TODO Handle uploads with no image*/
+            const newPOI = new PointOfInterest({
+              name: data.name,
+              description: data.description,
+              contributer: user._id,
+              imageURL: cloudImage.url
+            })
+            await newPOI.save();
+            return h.redirect('/report');
         },
         payload: {
-            output: 'file',
+            output: 'stream',
             parse: true,
             multipart: true
         }
-
     }
 };
 
