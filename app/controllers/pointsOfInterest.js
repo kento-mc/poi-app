@@ -80,6 +80,25 @@ const PointsOfInterest = {
             parse: true,
             multipart: true
         }
+    },
+    updatePOI: {
+        handler: async function (request, h) {
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            // retrieve poi
+            const data = request.payload;
+            // update poi w/ data
+            // save db
+        }
+    },
+    deletePOI: {
+        handler: async function (request, h) {
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            // retrieve poi
+            // remove poi from db
+            //save db
+        }
     }
 };
 

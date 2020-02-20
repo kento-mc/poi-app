@@ -1,5 +1,5 @@
-const PointsOfInterest = require('./app/controllers/pointsOfInterest');
 const Accounts = require('./app/controllers/accounts');
+const PointsOfInterest = require('./app/controllers/pointsOfInterest');
 
 module.exports = [
     { method: 'GET', path: '/', config: Accounts.index },
@@ -14,6 +14,8 @@ module.exports = [
     { method: 'GET', path: '/home', config: PointsOfInterest.home },
     { method: 'GET', path: '/report', config: PointsOfInterest.report },
     { method: 'POST', path: '/addpoi', config: PointsOfInterest.addPOI },
+    { method: 'POST', path: '/updatepoi', config: PointsOfInterest.updatePOI },
+    { method: 'POST', path: '/deletepoi', config: PointsOfInterest.deletePOI },
 
     {
         method: 'GET',
