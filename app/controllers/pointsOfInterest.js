@@ -43,7 +43,6 @@ const PointsOfInterest = {
             const data = request.payload;
             let cloudImage = {};
 
-
             if (data.image) {
                 const name = data.image.hapi.filename;
                 const path = `./uploads/${name}`;
@@ -60,15 +59,13 @@ const PointsOfInterest = {
                     }
                     return JSON.stringify(ret);
                 })
-            }
 
+                cloudImage = await cloudinary.uploader.upload(path, (error, result) => {
+                    console.log(result, error);
+                    console.log(cloudImage.url);
+                });
+            } // TODO Handle uploads with no image
 
-            /*if (data.image) {
-              cloudImage = await cloudinary.uploader.upload(data.image.path, (error, result) => {
-                  console.log(result, error);
-                  console.log(cloudImage.url);
-              });
-            } // TODO Handle uploads with no image*/
             const newPOI = new PointOfInterest({
               name: data.name,
               description: data.description,
