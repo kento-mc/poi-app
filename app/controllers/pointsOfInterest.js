@@ -45,7 +45,8 @@ const PointsOfInterest = {
 
             if (data.image) {
                 const name = data.image.hapi.filename;
-                const path = `./uploads/${name}`;
+                const now = new Date().toISOString();
+                const path = `./uploads/${name}${now}`;
                 const file = fs.createWriteStream(path);
 
                 file.on('error', (err) => console.error(err));
@@ -61,9 +62,21 @@ const PointsOfInterest = {
                 })
 
                 cloudImage = await cloudinary.uploader.upload(path, (error, result) => {
-                    console.log(result, error);
-                    console.log(cloudImage.url);
+                    if (error) {
+                        console.log(error);
+                    } else { // Deletes image from server
+                        fs.readdir('./uploads/', (err, files) => {
+                            if (err) throw err;
+
+                            for (const file of files) {
+                                fs.unlink(path, err => {
+                                    if (err) throw err;
+                                });
+                            }
+                        });
+                    }
                 });
+
             } // TODO Handle uploads with no image
 
             const newPOI = new PointOfInterest({
