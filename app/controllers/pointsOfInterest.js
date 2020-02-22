@@ -71,7 +71,7 @@ const PointsOfInterest = {
               description: data.description,
               contributer: user._id,
               imageURL: cloudImage.url
-            })
+            });
             await newPOI.save();
             return h.redirect('/report');
         },
@@ -81,14 +81,39 @@ const PointsOfInterest = {
             multipart: true
         }
     },
-    updatePOI: {
-        handler: async function (request, h) {
+    showPOI: {
+        handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            // retrieve poi
-            const data = request.payload;
-            // update poi w/ data
-            // save db
+            const poi = await PointOfInterest
+                .findOne()
+                .where({'_id': request.params})
+                .populate('contributer')
+                .lean();
+            return h.view('poi', {
+                title: `${poi.name} Settings`,
+                name: poi.name,
+                description: poi.description,
+                contributer: poi.contributer,
+                image: poi.imageURL,
+                _id: poi._id
+            });
+        }
+    },
+    updatePOI: {
+        handler: async function (request, h) {
+            const poiEdit = request.payload;
+            //const id = request.auth.credentials.id;
+            //const user = await User.findById(id);
+            const newPOI = await PointOfInterest.findOneAndUpdate({'_id': request.params}, {$set: poiEdit},
+                {
+                    new: true,
+                    useFindAndModify: false
+                }, (err, poi) => {
+                console.log(err);
+            });
+            await newPOI.save();
+            return h.redirect(`/poi/${newPOI._id}`)
         }
     },
     deletePOI: {
