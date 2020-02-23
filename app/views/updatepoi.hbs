@@ -1,0 +1,32 @@
+{{> mainmenu _id="report" }}
+
+<section class="ui raised segment">
+    <div class="ui grid">
+        <div class="ui eight wide column">
+            <div class="ui stacked fluid form segment">
+                <form action="/updatepoi/{{_id}}" method="POST">
+                    <h3 class="ui header">{{name}} Settings</h3>
+                    <div>
+                        <div class="field">
+                            <label>Name</label> <input value="{{name}}" type="text" name="name">
+                        </div>
+                        <div class="field">
+                            <label>Description</label> <input value="{{description}}" type="text" name="description">
+                        </div>
+                    </div>
+                    <!--<div class="field">
+                        <label>Contributer</label> <input value="{{contributer.firstName}} {{contributer.lastName}}" type="text" name="contributer">
+                    </div>
+                    <div class="field">
+                        <label>Image</label> <input value="{{image}}" type="text" name="image">
+                    </div>-->
+                    <br>
+                    <button class="ui blue submit button">Save Changes</button>
+                </form>
+            </div>
+        </div>
+        <aside class="ui eight wide column">
+            <img src="{{image}}" class="ui huge image">
+        </aside>
+    </div>
+</section>

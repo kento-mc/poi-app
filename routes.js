@@ -14,6 +14,7 @@ module.exports = [
     { method: 'GET', path: '/home', config: PointsOfInterest.home },
     { method: 'GET', path: '/report', config: PointsOfInterest.report },
     { method: 'GET', path: '/poi/{_id}', config: PointsOfInterest.showPOI },
+    { method: 'GET', path: '/updatepoi/{_id}', config: PointsOfInterest.showUpdatePOI },
     { method: 'POST', path: '/addpoi', config: PointsOfInterest.addPOI },
     { method: 'POST', path: '/updatepoi/{_id}', config: PointsOfInterest.updatePOI },
     { method: 'POST', path: '/deletepoi', config: PointsOfInterest.deletePOI },

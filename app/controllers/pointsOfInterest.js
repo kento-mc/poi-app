@@ -100,6 +100,25 @@ const PointsOfInterest = {
             });
         }
     },
+    showUpdatePOI: {
+        handler: async function(request, h) {
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            const poi = await PointOfInterest
+                .findOne()
+                .where({'_id': request.params})
+                .populate('contributer')
+                .lean();
+            return h.view('updatepoi', {
+                title: `${poi.name} Settings`,
+                name: poi.name,
+                description: poi.description,
+                contributer: poi.contributer,
+                image: poi.imageURL,
+                _id: poi._id
+            });
+        }
+    },
     updatePOI: {
         handler: async function (request, h) {
             const poiEdit = request.payload;
