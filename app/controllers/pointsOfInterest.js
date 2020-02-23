@@ -122,8 +122,6 @@ const PointsOfInterest = {
     updatePOI: {
         handler: async function (request, h) {
             const poiEdit = request.payload;
-            //const id = request.auth.credentials.id;
-            //const user = await User.findById(id);
             const newPOI = await PointOfInterest.findOneAndUpdate({'_id': request.params}, {$set: poiEdit},
                 {
                     new: true,
@@ -137,11 +135,18 @@ const PointsOfInterest = {
     },
     deletePOI: {
         handler: async function (request, h) {
-            const id = request.auth.credentials.id;
-            const user = await User.findById(id);
+            const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
+            //const id = request.auth.credentials.id;
+            //const user = await User.findById(id);
+            await PointOfInterest.deleteOne({'_id': request.params}, err => console.log(err));
+            console.log('POI deleted');
             // retrieve poi
             // remove poi from db
             //save db
+            return h.redirect('/report', {
+                title: 'Points of Interest added to Date',
+                pointsOfInterest: pointsOfInterest
+            });
         }
     }
 };
