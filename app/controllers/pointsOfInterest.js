@@ -83,8 +83,8 @@ const PointsOfInterest = {
     },
     showPOI: {
         handler: async function(request, h) {
-            const id = request.auth.credentials.id;
-            const user = await User.findById(id);
+            //const id = request.auth.credentials.id;
+            //const user = await User.findById(id);
             const poi = await PointOfInterest
                 .findOne()
                 .where({'_id': request.params})
@@ -102,8 +102,8 @@ const PointsOfInterest = {
     },
     showUpdatePOI: {
         handler: async function(request, h) {
-            const id = request.auth.credentials.id;
-            const user = await User.findById(id);
+            //const id = request.auth.credentials.id;
+            //const user = await User.findById(id);
             const poi = await PointOfInterest
                 .findOne()
                 .where({'_id': request.params})
