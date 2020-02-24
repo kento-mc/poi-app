@@ -8,10 +8,19 @@ const User = require('../models/user');
 
 const PointsOfInterest = {
     home: {
-        handler: function(request, h) {
+        handler: async function(request, h) {
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            const userPOIArray = []
+            for (let id of user.contributedPOIs) {
+                let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
+                userPOIArray.push(poi);
+            }
+            console.log(user.contributedPOIs);
             return h.view('home', {
                 title: 'Add a Point of Interest',
-                cloudName: process.env.cloud_name
+                //cloudName: process.env.cloud_name,
+                pointsOfInterest: userPOIArray
             });
         }
     },
@@ -66,13 +75,26 @@ const PointsOfInterest = {
                 });
             } // TODO Handle uploads with no image
 
-            const newPOI = new PointOfInterest({
+            const newPOI = await new PointOfInterest({
               name: data.name,
               description: data.description,
               contributer: user._id,
               imageURL: cloudImage.url
             });
             await newPOI.save();
+            const poi = await PointOfInterest
+                .findOne()
+                .where({'imageURL': cloudImage.url})
+                .populate('contributer')
+                .lean();
+            console.log(user.contributedPOIs);
+            await User.findOneAndUpdate({'_id': user.id}, {$push: {'contributedPOIs':  poi._id}}, {
+                new: true,
+                useFindAndModify: false
+            }, (err, poi) => {
+                console.log(err, poi);
+            });
+            //user.contributedPOIs.push(poi._id);
             return h.redirect('/report');
         },
         payload: {

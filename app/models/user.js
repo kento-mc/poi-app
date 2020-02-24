@@ -9,6 +9,7 @@ const userSchema = new Schema({
     lastName: String,
     email: String,
     password: String,
+    isAdmin: Boolean,
     contributedPOIs: [{
         type: Schema.Types.ObjectId,
         ref: 'pointsofinterest'

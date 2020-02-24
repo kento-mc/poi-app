@@ -53,7 +53,8 @@ const Accounts = {
                     firstName: payload.firstName,
                     lastName: payload.lastName,
                     email: payload.email,
-                    password: payload.password
+                    password: payload.password,
+                    isAdmin: false
                 });
                 user = await newUser.save();
                 request.cookieAuth.set({ id: user.id });

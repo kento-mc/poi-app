@@ -13,4 +13,4 @@ const poiSchema = new Schema({
     }
 }, { collection: 'pointsofinterest' }); // give custom name to collection in the DB
 
-module.exports = Mongoose.model('pointOfInterest', poiSchema);
+module.exports = Mongoose.model('PointOfInterest', poiSchema);
