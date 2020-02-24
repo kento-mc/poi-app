@@ -19,7 +19,7 @@ const PointsOfInterest = {
         handler: async function(request, h) {
             const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
             return h.view('report', {
-                title: 'Points of Interest added to Date',
+                title: 'Points of Interest added to date',
                 pointsOfInterest: pointsOfInterest
             });
         }
@@ -127,7 +127,7 @@ const PointsOfInterest = {
                     new: true,
                     useFindAndModify: false
                 }, (err, poi) => {
-                console.log(err);
+                console.log(err, poi);
             });
             await newPOI.save();
             return h.redirect(`/poi/${newPOI._id}`)
@@ -136,13 +136,8 @@ const PointsOfInterest = {
     deletePOI: {
         handler: async function (request, h) {
             const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
-            //const id = request.auth.credentials.id;
-            //const user = await User.findById(id);
             await PointOfInterest.deleteOne({'_id': request.params}, err => console.log(err));
             console.log('POI deleted');
-            // retrieve poi
-            // remove poi from db
-            //save db
             return h.redirect('/report', {
                 title: 'Points of Interest added to Date',
                 pointsOfInterest: pointsOfInterest
