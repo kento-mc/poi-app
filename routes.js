@@ -12,6 +12,7 @@ module.exports = [
     { method: 'POST', path: '/settings', config: Accounts.updateSettings },
 
     { method: 'GET', path: '/home', config: PointsOfInterest.home },
+    { method: 'GET', path: '/homeadmin', config: PointsOfInterest.home },
     { method: 'GET', path: '/report', config: PointsOfInterest.report },
     { method: 'GET', path: '/poi/{_id}', config: PointsOfInterest.showPOI },
     { method: 'GET', path: '/updatepoi/{_id}', config: PointsOfInterest.showUpdatePOI },

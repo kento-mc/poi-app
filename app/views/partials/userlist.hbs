@@ -1,0 +1,25 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="six wide column">
+            <img src="images/globe.jpg" class="ui large image">
+        </aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>POI Contributions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each users}}
+                    <tr>
+                        <td> {{firstName}} {{lastName}} </td>
+                        <td> {{contributedPOIs.length}} </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </article>
+    </div>
+</section>

@@ -16,12 +16,24 @@ const PointsOfInterest = {
                 let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                 userPOIArray.push(poi);
             }
+            const allUsers = await User.find({});
             console.log(user.contributedPOIs);
-            return h.view('home', {
-                title: 'Add a Point of Interest',
-                //cloudName: process.env.cloud_name,
-                pointsOfInterest: userPOIArray
-            });
+            if (user.isAdmin) {
+                return h.view('homeadmin', {
+                    title: 'Admin Dashboard',
+                    users: allUsers
+                }, { runtimeOptions: {
+                        allowProtoMethodsByDefault: true,
+                        allowProtoPropertiesByDefault: true
+                    }
+                });
+            } else {
+                return h.view('home', {
+                    title: 'Add a Point of Interest',
+                    //cloudName: process.env.cloud_name,
+                    pointsOfInterest: userPOIArray
+                });
+            }
         }
     },
     report: {
@@ -96,13 +108,6 @@ const PointsOfInterest = {
                     user.save();
                 }
             });
-            /*await User.findOneAndUpdate({'_id': user.id}, {$push: {'contributedPOIs':  poi._id}}, {
-                new: true,
-                useFindAndModify: false
-            }, (err, poi) => {
-                console.log(err, poi);
-            });*/
-            //user.contributedPOIs.push(poi._id);
             return h.redirect('/report');
         },
         payload: {
