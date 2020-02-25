@@ -88,12 +88,20 @@ const PointsOfInterest = {
                 .populate('contributer')
                 .lean();
             console.log(user.contributedPOIs);
-            await User.findOneAndUpdate({'_id': user.id}, {$push: {'contributedPOIs':  poi._id}}, {
+            await User.findOne({'_id': user.id}, (err, user) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    user.contributedPOIs.push(poi._id);
+                    user.save();
+                }
+            });
+            /*await User.findOneAndUpdate({'_id': user.id}, {$push: {'contributedPOIs':  poi._id}}, {
                 new: true,
                 useFindAndModify: false
             }, (err, poi) => {
                 console.log(err, poi);
-            });
+            });*/
             //user.contributedPOIs.push(poi._id);
             return h.redirect('/report');
         },
