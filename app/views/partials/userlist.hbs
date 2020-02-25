@@ -9,6 +9,7 @@
                 <tr>
                     <th>Name</th>
                     <th>POI Contributions</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -16,6 +17,13 @@
                     <tr>
                         <td> {{firstName}} {{lastName}} </td>
                         <td> {{contributedPOIs.length}} </td>
+                        <td class="center aligned">
+                            <a href="/homeadmin/deleteuser/{{_id}}">
+                                <h1>
+                                    <i class="red trash alternate icon"></i>
+                                </h1>
+                            </a>
+                        </td>
                     </tr>
                 {{/each}}
                 </tbody>

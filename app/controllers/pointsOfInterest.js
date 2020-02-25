@@ -173,10 +173,7 @@ const PointsOfInterest = {
             const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
             await PointOfInterest.deleteOne({'_id': request.params}, err => console.log(err));
             console.log('POI deleted');
-            return h.redirect('/report', {
-                title: 'Points of Interest added to Date',
-                pointsOfInterest: pointsOfInterest
-            });
+            return h.redirect('/report');
         }
     }
 };

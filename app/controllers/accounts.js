@@ -164,6 +164,13 @@ const Accounts = {
             await user.save();
             return h.redirect('/settings');
         }
+    },
+    deleteUser: {
+        handler: async function(request, h) {
+            await User.deleteOne({'_id': request.params}, err => console.log(err));
+            console.log('User deleted');
+            return h.redirect('/homeadmin');
+        }
     }
 };
 

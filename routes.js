@@ -10,6 +10,7 @@ module.exports = [
     { method: 'POST', path: '/login', config: Accounts.login },
     { method: 'GET', path: '/settings', config: Accounts.showSettings },
     { method: 'POST', path: '/settings', config: Accounts.updateSettings },
+    { method: 'GET', path: '/homeadmin/deleteuser/{_id}', config: Accounts.deleteUser },
 
     { method: 'GET', path: '/home', config: PointsOfInterest.home },
     { method: 'GET', path: '/homeadmin', config: PointsOfInterest.home },
