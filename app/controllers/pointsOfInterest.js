@@ -16,7 +16,7 @@ const PointsOfInterest = {
                 let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                 userPOIArray.push(poi);
             }
-            const allUsers = await User.find({});
+            const allUsers = await User.find({ 'isAdmin': false });
             console.log(user.contributedPOIs);
             if (user.isAdmin) {
                 return h.view('homeadmin', {
