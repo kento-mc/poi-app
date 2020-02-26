@@ -1,0 +1,40 @@
+<section class="ui raised segment">
+    <div class="ui segment">
+        <div class="ui grid">
+            <h1 class="six wide column">
+                {{user.firstName}} {{user.lastName}}'s Dashboard
+            </h1>
+            <aside class="ten wide column">
+                <h1>
+                    POIs : {{user.contributedPOIs.length}}
+                </h1>
+            </aside>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="ui form six wide column">
+            <div class="ui segment">
+                <table>
+                    <thead>
+                    <th>Custom Categories</th>
+                    </thead>
+                    <tbody>
+                    {{#each user.customCategories}}
+                        <td>
+                            {{this}}
+                        </td>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            {{> addpoiform }}
+        </div>
+        {{#if user.contributedPOIs}}
+            {{> poilist}}
+        {{else}}
+            <aside class="ten wide column">
+                <img src="images/map-pin.png" class="ui centered small image">
+            </aside>
+        {{/if}}
+    </div>
+</section>
