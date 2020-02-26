@@ -30,8 +30,13 @@ const PointsOfInterest = {
             } else {
                 return h.view('home', {
                     title: 'Add a Point of Interest',
+                    user: user,
                     //cloudName: process.env.cloud_name,
                     pointsOfInterest: userPOIArray
+                }, { runtimeOptions: {
+                        allowProtoMethodsByDefault: true,
+                        allowProtoPropertiesByDefault: true
+                    }
                 });
             }
         }
@@ -88,10 +93,11 @@ const PointsOfInterest = {
             } // TODO Handle uploads with no image
 
             const newPOI = await new PointOfInterest({
-              name: data.name,
-              description: data.description,
-              contributer: user._id,
-              imageURL: cloudImage.url
+                name: data.name,
+                description: data.description,
+                categories: data.categories,
+                contributer: user._id,
+                imageURL: cloudImage.url
             });
             await newPOI.save();
             const poi = await PointOfInterest
@@ -129,6 +135,7 @@ const PointsOfInterest = {
                 title: `${poi.name} Settings`,
                 name: poi.name,
                 description: poi.description,
+                categories: poi.categories,
                 contributer: poi.contributer,
                 image: poi.imageURL,
                 _id: poi._id

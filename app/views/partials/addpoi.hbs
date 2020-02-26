@@ -6,6 +6,11 @@
                     <h3 class="ui header">Add a new Point of Interest</h3>
                     <div class="field"><label>Name</label> <input placeholder="point of interest" type="text" name="name" /></div>
                     <div class="field"><label>Description</label> <input placeholder="description" type="text" name="description" /></div>
+                    <label class="field">Categories</label>
+                    <select class="ui fluid dropdown" name="categories" multiple="" >
+                        {{> categories }}
+                    </select>
+                    <br>
                     <div>
                         <label for="file" class="ui blue button">
                             <i class="image icon"></i>
@@ -13,7 +18,7 @@
                         <input id="file" type="file" name="image" style="display:none" />
                     </div>
                     <br>
-                    <button class="ui blue submit button">Save</button>
+                    <button class="ui blue submit button">Submit</button>
                 </form>
             </div>
         </div>

@@ -13,12 +13,22 @@
                         <label>Description</label> <input class="ui transparent input" value="{{description}}" type="text" name="description" readonly>
                     </div>
                 </div>
-                <!--<div class="field">
-                    <label>Contributer</label> <input value="{{contributer.firstName}} {{contributer.lastName}}" type="text" name="contributer">
-                </div>
-                <div class="field">
-                    <label>Image</label> <input value="{{image}}" type="text" name="image">
-                </div>-->
+                <table class="ui celled table segment">
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each categories}}
+                            <tr>
+                                <td>
+                                    <div>{{this}}</div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
                 <br>
                 <form action="/updatepoi/{{_id}}" method="GET">
                     <button class="ui blue submit button">Edit POI</button>
