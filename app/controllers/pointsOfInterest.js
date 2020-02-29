@@ -71,9 +71,9 @@ const PointsOfInterest = {
                     const ret = {
                         filename: data.image.hapi.filename,
                         headers: data.image.hapi.headers
-                    }
+                    };
                     return JSON.stringify(ret);
-                })
+                });
 
                 cloudImage = await cloudinary.uploader.upload(path, (error, result) => {
                     if (error) {
@@ -178,6 +178,16 @@ const PointsOfInterest = {
     deletePOI: {
         handler: async function (request, h) {
             const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
+            const allUsers = await User.find({ 'isAdmin': false });
+            for (let user of allUsers) {
+                for (let id of user.contributedPOIs) {
+                    if (id == request.params._id) {
+                        let spliced = user.contributedPOIs.splice(user.contributedPOIs.indexOf(id),1);
+                        console.log(spliced);
+                        user.save();
+                    }
+                }
+            }
             await PointOfInterest.deleteOne({'_id': request.params}, err => console.log(err));
             console.log('POI deleted');
             return h.redirect('/report');
