@@ -1,0 +1,33 @@
+<article class="ten wide column">
+    <table class="ui celled table segment">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Categories</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each pointsOfInterest}}
+            <tr>
+                <td>
+                    <div>{{name}}</div>
+                    <a href="/poi/{{_id}}">view</a>
+                </td>
+                <td> {{description}} </td>
+                <td>
+                    {{#each categories}}
+                        <div> {{this}} </div>
+                    {{/each}}
+                </td>
+                <td>
+                    <a href={{imageURL}}>
+                        <img alt="poi thumbnail" src={{imageURL}} width="150" height="70">
+                    </a>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</article>

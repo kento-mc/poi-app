@@ -11,6 +11,7 @@ const PointsOfInterest = {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
+            const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
             const userPOIArray = [];
             for (let id of user.contributedPOIs) {
                 let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
@@ -20,7 +21,9 @@ const PointsOfInterest = {
             if (user.isAdmin) {
                 return h.view('homeadmin', {
                     title: 'Admin Dashboard',
-                    users: allUsers
+                    user: user,
+                    users: allUsers,
+                    pointsOfInterest: pointsOfInterest,
                 }, { runtimeOptions: {
                         allowProtoMethodsByDefault: true,
                         allowProtoPropertiesByDefault: true
