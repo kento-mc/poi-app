@@ -11,6 +11,7 @@ The database has been moved to the cloud.
 
 I attempted to deploy the project to Glitch, but am getting an error that looks like it has something to do with Hapi:
 
+```
 /rbd/pnpm-volume/e51f919d-1b48-4328-93d0-28072c6d1112/node_modules/.registry.npmjs.org/@hapi/hapi/19.1.1/node_modules/@hapi/hapi/lib/core.js:51
     actives = new WeakMap();                                                   // Active requests being processed
             ^
@@ -25,3 +26,4 @@ SyntaxError: Unexpected token =
     at Function.Module._load (internal/modules/cjs/loader.js:531:3)
     at Module.require (internal/modules/cjs/loader.js:637:17)
     at require (internal/modules/cjs/helpers.js:22:18)
+```
