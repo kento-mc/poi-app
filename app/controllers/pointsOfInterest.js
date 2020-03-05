@@ -77,21 +77,12 @@ const PointsOfInterest = {
                     return JSON.stringify(ret);
                 });
 
-                cloudImage = await cloudinary.uploader.upload(path, (error, result) => {
-                    if (error) {
-                        console.log(error);
-                    } else { // Deletes image from server
-                        fs.readdir('./public/uploads/', (err, files) => {
-                            if (err) throw err;
+                try {
+                    cloudImage = await cloudinary.uploader.upload(path);
+                } catch (err) {
+                    console.log(err);
+                }
 
-                            for (const file of files) {
-                                fs.unlink(path, err => {
-                                    if (err) throw err;
-                                });
-                            }
-                        });
-                    }
-                });
             } // TODO Handle uploads with no image
 
             const newPOI = await new PointOfInterest({
