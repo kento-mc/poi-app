@@ -9,4 +9,4 @@ There is now also an admin dashboard where the administrator can view all users,
 
 The database has been moved to the cloud.
 
-Deploying to Heroku...
+Deployed to Heroku: https://enigmatic-lowlands-42374.herokuapp.com/
