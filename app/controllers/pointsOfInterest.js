@@ -62,9 +62,8 @@ const PointsOfInterest = {
             if (data.image) {
                 const name = data.image.hapi.filename;
                 const now = new Date().toISOString();
-                const path = `./public/uploads/temp${now}`;
+                const path = `./public/uploads/${name}${now}`;
                 const file = fs.createWriteStream(path);
-                console.log(file);
 
                 file.on('error', (err) => console.error(err));
 
