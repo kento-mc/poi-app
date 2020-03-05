@@ -62,7 +62,7 @@ const PointsOfInterest = {
             if (data.image) {
                 const name = data.image.hapi.filename;
                 const now = new Date().toISOString();
-                const path = `./uploads/${name}${now}`;
+                const path = `./public/uploads/${name}${now}`;
                 const file = fs.createWriteStream(path);
 
                 file.on('error', (err) => console.error(err));
@@ -81,7 +81,7 @@ const PointsOfInterest = {
                     if (error) {
                         console.log(error);
                     } else { // Deletes image from server
-                        fs.readdir('./uploads/', (err, files) => {
+                        fs.readdir('./public/uploads/', (err, files) => {
                             if (err) throw err;
 
                             for (const file of files) {
