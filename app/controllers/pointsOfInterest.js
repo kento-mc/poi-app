@@ -11,13 +11,12 @@ const PointsOfInterest = {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            const userPOIArray = []
+            const userPOIArray = [];
             for (let id of user.contributedPOIs) {
                 let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                 userPOIArray.push(poi);
             }
             const allUsers = await User.find({ 'isAdmin': false });
-            console.log(user.contributedPOIs);
             if (user.isAdmin) {
                 return h.view('homeadmin', {
                     title: 'Admin Dashboard',
@@ -181,7 +180,7 @@ const PointsOfInterest = {
             const allUsers = await User.find({ 'isAdmin': false });
             for (let user of allUsers) {
                 for (let id of user.contributedPOIs) {
-                    if (id == request.params._id) {
+                    if (id === request.params._id) {
                         let spliced = user.contributedPOIs.splice(user.contributedPOIs.indexOf(id),1);
                         console.log(spliced);
                         user.save();
@@ -191,6 +190,15 @@ const PointsOfInterest = {
             await PointOfInterest.deleteOne({'_id': request.params}, err => console.log(err));
             console.log('POI deleted');
             return h.redirect('/report');
+        }
+    },
+    addCategory: {
+        handler: async function (request, h) {
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            user.customCategories.push(request.payload.name);
+            user.save();
+            return h.redirect('/home');
         }
     }
 };
