@@ -9,6 +9,4 @@ There is now also an admin dashboard where the administrator can view all users,
 
 The database has been moved to the cloud.
 
-Deployed to Glitch: https://kento-mc-poi-app.glitch.me/
-
-I fixed the error with Glitch by specifying the node version in the package.json file.
+Deploying to Heroku...
