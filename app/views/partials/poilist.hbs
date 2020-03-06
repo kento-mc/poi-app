@@ -4,6 +4,7 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Location</th>
             <th>Categories</th>
             <th>Contributer</th>
             <th>Image</th>
@@ -17,6 +18,10 @@
                     <a href="/poi/{{_id}}">view</a>
                 </td>
                 <td> {{description}} </td>
+                <td>
+                    <div>Lon: {{location.lat}}</div>
+                    <div>Lat: {{location.lon}}</div>
+                </td>
                 <td>
                     {{#each categories}}
                         <div> {{this}} </div>

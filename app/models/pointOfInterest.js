@@ -6,6 +6,10 @@ const Schema = Mongoose.Schema;
 const poiSchema = new Schema({
     name: String,
     description: String,
+    location: {
+        lat: Number,
+        lon: Number
+    },
     categories: [String],
     imageURL: String,
     contributer: {

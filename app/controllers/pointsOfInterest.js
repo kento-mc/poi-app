@@ -88,6 +88,10 @@ const PointsOfInterest = {
             const newPOI = await new PointOfInterest({
                 name: data.name,
                 description: data.description,
+                location: {
+                    lat: data.lat,
+                    lon: data.lon,
+                },
                 categories: data.categories,
                 contributer: user._id,
                 imageURL: cloudImage.url
