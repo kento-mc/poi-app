@@ -33,7 +33,6 @@ const PointsOfInterest = {
                 return h.view('home', {
                     title: 'Add a Point of Interest',
                     user: user,
-                    //cloudName: process.env.cloud_name,
                     pointsOfInterest: userPOIArray
                 }, { runtimeOptions: {
                         allowProtoMethodsByDefault: true,
@@ -138,6 +137,7 @@ const PointsOfInterest = {
             const compare = `${user._id} ${poi.contributor._id}`;
             return h.view('poi', {
                 title: `${poi.name} Settings`,
+                user: user,
                 poi: poi,
                 compare: compare,
             }, { runtimeOptions: {
