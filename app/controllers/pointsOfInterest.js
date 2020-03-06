@@ -11,7 +11,7 @@ const PointsOfInterest = {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
+            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
             const userPOIArray = [];
             for (let id of user.contributedPOIs) {
                 let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
@@ -45,10 +45,17 @@ const PointsOfInterest = {
     },
     report: {
         handler: async function(request, h) {
-            const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
             return h.view('report', {
                 title: 'Points of Interest added to date',
+                user: user,
                 pointsOfInterest: pointsOfInterest
+            }, { runtimeOptions: {
+                    allowProtoMethodsByDefault: true,
+                    allowProtoPropertiesByDefault: true
+                }
             });
         }
     },
@@ -100,12 +107,12 @@ const PointsOfInterest = {
             const poi = await PointOfInterest
                 .findOne()
                 .where({'imageURL': cloudImage.url})
-                .populate('contributer')
+                .populate('contributor')
                 .lean();
             console.log(user.contributedPOIs);
             await User.findOne({'_id': user.id}, (err, user) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                 } else {
                     user.contributedPOIs.push(poi._id);
                     user.save();
@@ -121,52 +128,72 @@ const PointsOfInterest = {
     },
     showPOI: {
         handler: async function(request, h) {
-            //const id = request.auth.credentials.id;
-            //const user = await User.findById(id);
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
             const poi = await PointOfInterest
                 .findOne()
                 .where({'_id': request.params})
-                .populate('contributer')
+                .populate('contributor')
                 .lean();
+            const compare = `${user._id} ${poi.contributor._id}`;
             return h.view('poi', {
                 title: `${poi.name} Settings`,
-                name: poi.name,
-                description: poi.description,
-                categories: poi.categories,
-                contributer: poi.contributer,
-                image: poi.imageURL,
-                _id: poi._id
+                poi: poi,
+                compare: compare,
+            }, { runtimeOptions: {
+                    allowProtoMethodsByDefault: true,
+                    allowProtoPropertiesByDefault: true
+                }
             });
         }
     },
     showUpdatePOI: {
         handler: async function(request, h) {
-            //const id = request.auth.credentials.id;
-            //const user = await User.findById(id);
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
             const poi = await PointOfInterest
                 .findOne()
                 .where({'_id': request.params})
-                .populate('contributer')
+                .populate('contributor')
                 .lean();
             return h.view('updatepoi', {
                 title: `${poi.name} Settings`,
-                name: poi.name,
-                description: poi.description,
-                contributer: poi.contributer,
-                image: poi.imageURL,
-                _id: poi._id
+                user: user,
+                poi: poi
+            }, { runtimeOptions: {
+                    allowProtoMethodsByDefault: true,
+                    allowProtoPropertiesByDefault: true
+                }
             });
         }
     },
     updatePOI: {
         handler: async function (request, h) {
-            const poiEdit = request.payload;
+            const id = request.auth.credentials.id;
+            let user = await User.findById(id);
+            const contString = request.payload.contributor;
+            if (user.isAdmin) {
+                user = await User.findByFullName(contString);
+            }
+            const poiEdit = {
+                name: request.payload.name,
+                description: request.payload.description,
+                location: {
+                    lat: request.payload.lat,
+                    lon: request.payload.lon
+                },
+                categories: request.payload.categories,
+                imageURL: request.payload.imageURL,
+                contributor: user._id
+            };
             const newPOI = await PointOfInterest.findOneAndUpdate({'_id': request.params}, {$set: poiEdit},
                 {
                     new: true,
                     useFindAndModify: false
-                }, (err, poi) => {
-                console.log(err, poi);
+                }, err => {
+                    if (err) {
+                        console.error(err);
+                    }
             });
             await newPOI.save();
             return h.redirect(`/poi/${newPOI._id}`)
@@ -174,7 +201,7 @@ const PointsOfInterest = {
     },
     deletePOI: {
         handler: async function (request, h) {
-            const pointsOfInterest = await PointOfInterest.find().populate('contributer').lean();
+            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
             const allUsers = await User.find({ 'isAdmin': false });
             for (let user of allUsers) {
                 for (let id of user.contributedPOIs) {

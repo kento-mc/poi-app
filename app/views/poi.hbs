@@ -4,39 +4,65 @@
     <div class="ui grid">
         <div class="ui eight wide column">
             <div class="ui stacked fluid form segment">
-                <h3 class="ui header">{{name}}</h3>
-                <div>
+                <h3 class="ui header">{{poi.name}}</h3>
+                <div class="field">
+                    <label>Name</label> <input class="ui transparent input" value="{{poi.name}}" type="text" name="name" readonly>
+                </div>
+                <div class="field">
+                    <label>Description</label> <input class="ui transparent input" value="{{poi.description}}" type="text" name="description" readonly>
+                </div>
+                <div class="two fields">
                     <div class="field">
-                        <label>Name</label> <input class="ui transparent input" value="{{name}}" type="text" name="name" readonly>
+                        <label>Latitude</label>
+                        <input class="ui transparent input" value="{{poi.location.lat}}" type="number" name="lat" readonly>
                     </div>
                     <div class="field">
-                        <label>Description</label> <input class="ui transparent input" value="{{description}}" type="text" name="description" readonly>
+                        <label>Longitude</label>
+                        <input class="ui transparent input" value="{{poi.location.lon}}" type="number" name="lon" readonly>
                     </div>
                 </div>
-                <table class="ui celled table segment">
-                    <thead>
-                        <tr>
-                            <th>Categories</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each categories}}
-                            <tr>
-                                <td>
-                                    <div>{{this}}</div>
-                                </td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+                {{#if user.isAdmin}}
+                    <div class="field">
+                        <label>Contributor</label>
+                        <input class="ui transparent input" value="{{poi.contributor.firstName}} {{poi.contributor.lastName}}" type="text" name="contributor" readonly>
+                    </div>
+                {{/if}}
+                <div class="field">
+                    <label>Image URL</label>
+                    <input class="ui transparent input" value="{{poi.imageURL}}" type="text" name="imageURL" readonly>
+                </div>
                 <br>
-                <form action="/updatepoi/{{_id}}" method="GET">
-                    <button class="ui blue submit button">Edit POI</button>
-                </form>
+                <div class="field">
+                    <label>Categories</label>
+                    <table class="ui celled table segment">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            {{#each poi.categories}}
+                                <tr>
+                                    <td>
+                                        <div>{{this}}</div>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                {{#ifEquals compare}}
+                    <form action="/updatepoi/{{poi._id}}" method="GET">
+                        <button class="ui blue submit button">Edit POI</button>
+                    </form>
+                {{/ifEquals}}
+                {{#if user.isAdmin}}
+                    <form action="/updatepoi/{{poi._id}}" method="GET">
+                        <button class="ui blue submit button">Edit POI</button>
+                    </form>
+                {{/if}}
             </div>
         </div>
         <aside class="ui eight wide column">
-            <img src="{{image}}" class="ui huge image">
+            <img src="{{poi.imageURL}}" class="ui huge image">
         </aside>
     </div>
 </section>

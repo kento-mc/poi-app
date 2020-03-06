@@ -30,6 +30,7 @@ async function init() {
         path: './app/views',
         layoutPath: './app/views/layouts',
         partialsPath: './app/views/partials',
+        helpersPath: './app/views/helpers',
         layout: true,
         isCached: false,
     });

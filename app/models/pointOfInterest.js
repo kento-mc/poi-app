@@ -12,7 +12,7 @@ const poiSchema = new Schema({
     },
     categories: [String],
     imageURL: String,
-    contributer: {
+    contributor: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }

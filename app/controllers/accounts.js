@@ -52,6 +52,7 @@ const Accounts = {
                 const newUser = new User({
                     firstName: payload.firstName,
                     lastName: payload.lastName,
+                    fullName: `${payload.firstName} ${payload.lastName}`,
                     email: payload.email,
                     password: payload.password,
                     isAdmin: false
@@ -159,6 +160,7 @@ const Accounts = {
             const user = await User.findById(id);
             user.firstName = userEdit.firstName;
             user.lastName = userEdit.lastName;
+            user.fullName = `${userEdit.firstName} ${userEdit.lastName}`
             user.email = userEdit.email;
             user.password = userEdit.password;
             await user.save();
