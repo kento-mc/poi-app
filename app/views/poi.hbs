@@ -21,15 +21,13 @@
                         <input class="ui transparent input" value="{{poi.location.lon}}" type="number" name="lon" readonly>
                     </div>
                 </div>
-                {{#if user.isAdmin}}
-                    <div class="field">
-                        <label>Contributor</label>
-                        <input class="ui transparent input" value="{{poi.contributor.firstName}} {{poi.contributor.lastName}}" type="text" name="contributor" readonly>
-                    </div>
-                {{/if}}
                 <div class="field">
                     <label>Image URL</label>
                     <input class="ui transparent input" value="{{poi.imageURL}}" type="text" name="imageURL" readonly>
+                </div>
+                <div class="field">
+                    <label>Contributor</label>
+                    <input class="ui transparent input" value="{{poi.contributor.firstName}} {{poi.contributor.lastName}}" type="text" name="contributor" readonly>
                 </div>
                 <br>
                 <div class="field">
@@ -49,11 +47,13 @@
                     </table>
                 </div>
                 <br>
-                {{#ifEquals compare}}
-                    <form action="/updatepoi/{{poi._id}}" method="GET">
-                        <button class="ui blue submit button">Edit POI</button>
-                    </form>
-                {{/ifEquals}}
+                {{#unless user.isAdmin}}
+                    {{#ifEquals compare}}
+                        <form action="/updatepoi/{{poi._id}}" method="GET">
+                            <button class="ui blue submit button">Edit POI</button>
+                        </form>
+                    {{/ifEquals}}
+                {{/unless}}
                 {{#if user.isAdmin}}
                     <form action="/updatepoi/{{poi._id}}" method="GET">
                         <button class="ui blue submit button">Edit POI</button>

@@ -22,13 +22,12 @@
                             <input value="{{poi.location.lon}}" type="number" step="0.000001" name="lon">
                         </div>
                     </div>
-                    {{#if user.isAdmin}}
-                        <div class="field">
-                            <label>Contributor</label> <input value="{{poi.contributor.firstName}} {{poi.contributor.lastName}}" type="text" name="contributor">
-                        </div>
-                    {{/if}}
                     <div class="field">
                         <label>Image URL</label> <input value="{{poi.imageURL}}" type="text" name="imageURL">
+                    </div>
+                    <div class="field">
+                        <label>Contributor</label>
+                        <input class="ui transparent input" value="{{poi.contributor.firstName}} {{poi.contributor.lastName}}" type="text" name="contributor" readonly>
                     </div>
                     <br>
                     <div class="field">

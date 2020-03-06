@@ -24,7 +24,8 @@ const PointsOfInterest = {
                     user: user,
                     users: allUsers,
                     pointsOfInterest: pointsOfInterest,
-                }, { runtimeOptions: {
+                },
+                    { runtimeOptions: {
                         allowProtoMethodsByDefault: true,
                         allowProtoPropertiesByDefault: true
                     }
@@ -34,7 +35,8 @@ const PointsOfInterest = {
                     title: 'Add a Point of Interest',
                     user: user,
                     pointsOfInterest: userPOIArray
-                }, { runtimeOptions: {
+                },
+                    { runtimeOptions: {
                         allowProtoMethodsByDefault: true,
                         allowProtoPropertiesByDefault: true
                     }
@@ -83,13 +85,22 @@ const PointsOfInterest = {
                     return JSON.stringify(ret);
                 });
 
-                try {
-                    cloudImage = await cloudinary.uploader.upload(path);
-                } catch (err) {
-                    console.log(err);
-                }
+                cloudImage = await cloudinary.uploader.upload(path, (err, result) => {
+                    if (err) {
+                        console.error(err);
+                    } else { // Deletes image from server
+                        fs.readdir('./public/uploads/', (err, files) => {
+                            if (err) throw err;
 
-            } // TODO Handle uploads with no image
+                            for (const file of files) {
+                                fs.unlink(path, err => {
+                                    if (err) throw err;
+                                });
+                            }
+                        });
+                    }
+                });
+            }   // TODO Handle uploads with no image
 
             const newPOI = await new PointOfInterest({
                 name: data.name,
@@ -99,7 +110,7 @@ const PointsOfInterest = {
                     lon: data.lon,
                 },
                 categories: data.categories,
-                contributer: user._id,
+                contributor: user._id,
                 imageURL: cloudImage.url
             });
             await newPOI.save();
@@ -134,7 +145,7 @@ const PointsOfInterest = {
                 .where({'_id': request.params})
                 .populate('contributor')
                 .lean();
-            const compare = `${user._id} ${poi.contributor._id}`;
+            const compare = `${user._id}&${poi.contributor._id}`;
             return h.view('poi', {
                 title: `${poi.name} Settings`,
                 user: user,
