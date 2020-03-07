@@ -3,8 +3,11 @@
 require('dotenv').config();
 const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
+const Boom = require('@hapi/boom');
+const Joi = require('@hapi/joi');
 const PointOfInterest = require('../models/pointOfInterest');
 const User = require('../models/user');
+const ImageStore = require('../utils/image-store');
 
 const PointsOfInterest = {
     home: {
@@ -61,81 +64,86 @@ const PointsOfInterest = {
         }
     },
     addPOI: {
+        /*validate: { //TODO fix clearing of form when error thrown
+            payload: {
+                name: Joi.string().required(),
+                description: Joi.string().required(),
+                lat: Joi.number().required(),
+                lon: Joi.number().required(),
+                categories: Joi.any(),
+                image: Joi.any()
+            },
+            options: {
+                abortEarly: false
+            },
+            failAction: function(request, h, error) {
+                return h
+                    .view('home', {
+                        title: 'Sign up error',
+                        errors: error.details
+                    })
+                    .takeover()
+                    .code(400);
+            }
+        },*/
         handler: async function (request, h) {
-            const id = request.auth.credentials.id;
-            const user = await User.findById(id);
-            const data = request.payload;
-            let cloudImage = {};
+            try {
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id);
+                const data = request.payload;
+                //let cloudImage = {};
 
-            if (data.image) {
+                if (!data.image) {
+                    const message = 'Email address is not registered';
+                    throw Boom.unauthorized(message);
+                }
+
                 const name = data.image.hapi.filename;
                 const now = new Date().toISOString();
                 const path = `./public/uploads/${name}${now}`;
                 const file = await fs.createWriteStream(path);
 
-                //file.on('error', (err) => console.error(err));
-
                 await data.image.pipe(file);
 
-                /*data.image.on('end', (err) => {
-                    const ret = {
-                        filename: data.image.hapi.filename,
-                        headers: data.image.hapi.headers
-                    };
-                    return JSON.stringify(ret);
-                });*/
+                const cloudImage = await ImageStore.uploadImage(path);
 
-                cloudImage = await cloudinary.uploader.upload(path, (err, result) => {
+                const newPOI = await new PointOfInterest({
+                    name: data.name,
+                    description: data.description,
+                    location: {
+                        lat: data.lat,
+                        lon: data.lon,
+                    },
+                    categories: data.categories,
+                    contributor: user._id,
+                    imageURL: [cloudImage.url]
+                });
+                newPOI.thumbnailURL = newPOI.imageURL[0];
+                await newPOI.save();
+                const poi = await PointOfInterest
+                    .findOne()
+                    .where({'imageURL': cloudImage.url})
+                    .populate('contributor')
+                    .lean();
+                await User.findOne({'_id': user.id}, (err, user) => {
                     if (err) {
                         console.error(err);
-                    } else { // Deletes image from server
-                        fs.readdir('./public/uploads/', (err, files) => {
-                            if (err) throw err;
-
-                            for (const file of files) {
-                                fs.unlink(path, err => {
-                                    if (err) throw err;
-                                });
-                            }
-                        });
+                    } else {
+                        user.contributedPOIs.push(poi._id);
+                        user.save();
                     }
                 });
-            }   // TODO Handle uploads with no image
-
-            const newPOI = await new PointOfInterest({
-                name: data.name,
-                description: data.description,
-                location: {
-                    lat: data.lat,
-                    lon: data.lon,
-                },
-                categories: data.categories,
-                contributor: user._id,
-                imageURL: [cloudImage.url]
-            });
-            newPOI.thumbnailURL = newPOI.imageURL[0];
-            await newPOI.save();
-            const poi = await PointOfInterest
-                .findOne()
-                .where({'imageURL': cloudImage.url})
-                .populate('contributor')
-                .lean();
-            console.log(user.contributedPOIs);
-            await User.findOne({'_id': user.id}, (err, user) => {
-                if (err) {
-                    console.error(err);
-                } else {
-                    user.contributedPOIs.push(poi._id);
-                    user.save();
-                }
-            });
-            return h.redirect('/report');
+                return h.redirect('/home');
+            } catch (err) {
+                return h.view('home', { errors: [{ message: err.message }] });
+            }
         },
         payload: {
             output: 'stream',
             parse: true,
             multipart: true
         }
+
     },
     showPOI: {
         handler: async function(request, h) {

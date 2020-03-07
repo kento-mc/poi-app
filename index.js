@@ -3,13 +3,13 @@
 const Hapi = require('@hapi/hapi');
 require('dotenv').config();
 require('./app/models/db');
-const cloudinary = require('cloudinary').v2;
+const ImageStore = require('./app/utils/image-store');
 
-cloudinary.config({
+const cloudinaryCredentials = {
     cloud_name: process.env.cloud_name,
     api_key: process.env.cloud_api_key,
     api_secret: process.env.cloud_api_secret
-});
+};
 
 const server = Hapi.server({
     port: process.env.PORT || 3000,
@@ -22,6 +22,8 @@ async function init() {
 
     server.validator(require('@hapi/joi'))
 
+    ImageStore.configure(cloudinaryCredentials);
+
     server.views({
         engines: {
             hbs: require('handlebars')
@@ -30,7 +32,7 @@ async function init() {
         path: './app/views',
         layoutPath: './app/views/layouts',
         partialsPath: './app/views/partials',
-        helpersPath: './app/views/helpers',
+        helpersPath: './app/views/helpers', // Define path for custom handlebars helper
         layout: true,
         isCached: false,
     });

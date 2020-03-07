@@ -1,14 +1,14 @@
 <section class="ui raised segment">
     <div class="ui segment">
         <div class="ui grid">
-                {{#if user.isAdmin}}
-                    <h1 class="ten wide column">
-                        {{user.firstName}} {{user.lastName}}'s Admin Dashboard
-                {{else}}
-                    <h1 class="six wide column">
-                        {{user.firstName}} {{user.lastName}}'s Dashboard
-                    </h1>
-                {{/if}}
+            {{#if user.isAdmin}}
+                <h1 class="ten wide column">
+                    {{user.firstName}} {{user.lastName}}'s Admin Dashboard
+            {{else}}
+                <h1 class="six wide column">
+                    {{user.firstName}} {{user.lastName}}'s Dashboard
+                </h1>
+            {{/if}}
             {{#if user.isAdmin}}
                 <aside class="six wide column">
                 </aside>
@@ -56,6 +56,7 @@
                     </form>
                 </div>
             {{/unless}}
+            {{> error }}
         </div>
         {{#if user.isAdmin}}
             <aside class="ten wide column">
