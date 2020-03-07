@@ -64,7 +64,7 @@ const PointsOfInterest = {
         }
     },
     addPOI: {
-        /*validate: { //TODO fix clearing of form when error thrown
+        validate: { //TODO fix clearing of form when error thrown
             payload: {
                 name: Joi.string().required(),
                 description: Joi.string().required(),
@@ -85,16 +85,15 @@ const PointsOfInterest = {
                     .takeover()
                     .code(400);
             }
-        },*/
+        },
         handler: async function (request, h) {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const data = request.payload;
-                //let cloudImage = {};
 
                 if (!data.image) {
-                    const message = 'Email address is not registered';
+                    const message = 'No image selected';
                     throw Boom.unauthorized(message);
                 }
 
@@ -135,7 +134,41 @@ const PointsOfInterest = {
                 });
                 return h.redirect('/home');
             } catch (err) {
-                return h.view('home', { errors: [{ message: err.message }] });
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id);
+                const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+                const userPOIArray = [];
+                for (let id of user.contributedPOIs) {
+                    let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
+                    userPOIArray.push(poi);
+                }
+                const allUsers = await User.find({ 'isAdmin': false });
+                if (user.isAdmin) {
+                    return h.view('homeadmin', {
+                            title: 'Admin Dashboard',
+                            user: user,
+                            users: allUsers,
+                            pointsOfInterest: pointsOfInterest,
+                            errors: [{ message: err.message }]
+                        },
+                        { runtimeOptions: {
+                                allowProtoMethodsByDefault: true,
+                                allowProtoPropertiesByDefault: true
+                            }
+                        });
+                } else {
+                    return h.view('home', {
+                            title: 'Add a Point of Interest',
+                            user: user,
+                            pointsOfInterest: userPOIArray,
+                            errors: [{ message: err.message }]
+                        },
+                        { runtimeOptions: {
+                                allowProtoMethodsByDefault: true,
+                                allowProtoPropertiesByDefault: true
+                            }
+                        });
+                }
             }
         },
         payload: {
