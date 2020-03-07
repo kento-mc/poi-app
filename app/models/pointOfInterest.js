@@ -11,7 +11,8 @@ const poiSchema = new Schema({
         lon: Number
     },
     categories: [String],
-    imageURL: String,
+    imageURL: [String],
+    thumbnailURL: String,
     contributor: {
         type: Schema.Types.ObjectId,
         ref: 'User'

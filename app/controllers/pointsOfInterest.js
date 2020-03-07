@@ -111,8 +111,9 @@ const PointsOfInterest = {
                 },
                 categories: data.categories,
                 contributor: user._id,
-                imageURL: cloudImage.url
+                imageURL: [cloudImage.url]
             });
+            newPOI.thumbnailURL = newPOI.imageURL[0];
             await newPOI.save();
             const poi = await PointOfInterest
                 .findOne()
