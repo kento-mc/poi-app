@@ -19,11 +19,15 @@
                 {{> categories }}
             </select>
         </div>
+        <!-- Used the following to work out the filename display functionality:
+        https://stackoverflow.com/questions/41542845/how-to-display-file-name-for-custom-styled-input-file-using-jquery
+        -->
         <div>
-            <label for="file" class="ui blue button">
+            <label for="file-upload" class="ui blue button">
                 <i class="image icon"></i>
-                Upload Image</label>
-            <input id="file" type="file" name="image" style="display:none" />
+                Upload Image
+            </label>
+            <input id="file-upload" type="file" name="image" style="display:none">
         </div>
         <br>
         <button class="ui blue submit button">Submit</button>

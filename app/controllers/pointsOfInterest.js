@@ -71,19 +71,19 @@ const PointsOfInterest = {
                 const name = data.image.hapi.filename;
                 const now = new Date().toISOString();
                 const path = `./public/uploads/${name}${now}`;
-                const file = fs.createWriteStream(path);
+                const file = await fs.createWriteStream(path);
 
-                file.on('error', (err) => console.error(err));
+                //file.on('error', (err) => console.error(err));
 
-                data.image.pipe(file);
+                await data.image.pipe(file);
 
-                data.image.on('end', (err) => {
+                /*data.image.on('end', (err) => {
                     const ret = {
                         filename: data.image.hapi.filename,
                         headers: data.image.hapi.headers
                     };
                     return JSON.stringify(ret);
-                });
+                });*/
 
                 cloudImage = await cloudinary.uploader.upload(path, (err, result) => {
                     if (err) {
@@ -236,6 +236,11 @@ const PointsOfInterest = {
             user.customCategories.push(request.payload.name);
             user.save();
             return h.redirect('/home');
+        }
+    },
+    addImage: {
+        handler: async function (request, h) {
+
         }
     }
 };
