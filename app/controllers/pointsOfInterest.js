@@ -167,7 +167,6 @@ const PointsOfInterest = {
             parse: true,
             multipart: true
         }
-
     },
     showPOI: {
         handler: async function(request, h) {
@@ -178,11 +177,17 @@ const PointsOfInterest = {
                 .where({'_id': request.params})
                 .populate('contributor')
                 .lean();
+            const imageURLs  = [];
+            for (let i = 0; i < poi.imageURL.length - 1; i++) {
+                imageURLs.push(poi.imageURL[i+1]);
+            }
             const compare = `${user._id}&${poi.contributor._id}`;
             return h.view('poi', {
                 title: `${poi.name} Settings`,
                 user: user,
                 poi: poi,
+                thumbnail: poi.thumbnailURL,
+                imageURLs: imageURLs,
                 compare: compare,
             }, { runtimeOptions: {
                     allowProtoMethodsByDefault: true,
@@ -200,10 +205,16 @@ const PointsOfInterest = {
                 .where({'_id': request.params})
                 .populate('contributor')
                 .lean();
+            const imageURLs  = [];
+            for (let i = 0; i < poi.imageURL.length - 1; i++) {
+                imageURLs.push(poi.imageURL[i+1]);
+            }
             return h.view('updatepoi', {
                 title: `${poi.name} Settings`,
                 user: user,
-                poi: poi
+                poi: poi,
+                thumbnail: poi.thumbnailURL,
+                imageURLs: imageURLs
             }, { runtimeOptions: {
                     allowProtoMethodsByDefault: true,
                     allowProtoPropertiesByDefault: true
@@ -272,7 +283,36 @@ const PointsOfInterest = {
     },
     addImage: {
         handler: async function (request, h) {
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
+            const poi = await PointOfInterest
+                .findOne()
+                .where({'_id': request.params})
+                .populate('contributor');
+                //.lean();
+            const data = request.payload;
 
+            if (data.image._data == 0) {
+                const message = 'No image selected';
+                throw Boom.unauthorized(message);
+            }
+
+            const name = data.image.hapi.filename;
+            const now = new Date().toISOString();
+            const path = `./public/uploads/${name}${now}`;
+            const file = await fs.createWriteStream(path);
+
+            await data.image.pipe(file);
+
+            const cloudImage = await ImageStore.uploadImage(path);
+            await poi.imageURL.push(cloudImage.url);
+            await poi.save();
+            return h.redirect(`/updatepoi/${request.params._id}`);
+        },
+        payload: {
+            output: 'stream',
+            parse: true,
+            multipart: true
         }
     }
 };

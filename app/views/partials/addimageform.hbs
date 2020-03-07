@@ -1,5 +1,6 @@
 <div class="ui stacked segment">
-    <form action="/addimage" method="POST" enctype="multipart/form-data">
+    <h4>Add another image</h4>
+    <form action="/updatepoi/{{poi._id}}/addimage" method="POST" enctype="multipart/form-data">
         <div>
             <label for="file-upload" class="ui blue button">
                 <i class="image icon"></i>
@@ -7,6 +8,7 @@
             </label>
             <input id="file-upload" type="file" name="image" style="display:none">
         </div>
+        <br>
         <button class="ui blue submit button">Submit</button>
     </form>
 </div>

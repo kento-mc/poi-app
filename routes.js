@@ -21,7 +21,7 @@ module.exports = [
     { method: 'POST', path: '/updatepoi/{_id}', config: PointsOfInterest.updatePOI },
     { method: 'POST', path: '/deletepoi/{_id}', config: PointsOfInterest.deletePOI },
     { method: 'POST', path: '/addcategory', config: PointsOfInterest.addCategory },
-    { method: 'POST', path: '/addimage', config: PointsOfInterest.addImage },
+    { method: 'POST', path: '/updatepoi/{_id}/addimage', config: PointsOfInterest.addImage },
 
     {
         method: 'GET',

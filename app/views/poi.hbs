@@ -62,7 +62,11 @@
             </div>
         </div>
         <aside class="ui eight wide column">
-            <img src="{{poi.imageURL}}" class="ui huge image">
+            <a href="{{thumbnail}}">
+                <img src="{{thumbnail}}" class="ui huge image">
+            </a>
+            <br>
+            {{> imagegallery}}
         </aside>
     </div>
 </section>

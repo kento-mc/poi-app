@@ -1,9 +1,9 @@
 <div class="ui three stackable cards">
     {{#each imageURLs}}
         <div class="card">
-            <div class="image">
-                <img class="hoverZoomLink" src="{{this}}">
-            </div>
+            <a class="image" href="{{this}}">
+                <img src="{{this}}" class="hoverZoomLink">
+            </a>
         </div>
     {{/each}}
 </div>
