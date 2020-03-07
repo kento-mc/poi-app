@@ -96,7 +96,7 @@ const PointsOfInterest = {
                 const user = await User.findById(id);
                 const data = request.payload;
 
-                if (!data.image) {
+                if (data.image._data == 0) {
                     const message = 'No image selected';
                     throw Boom.unauthorized(message);
                 }
