@@ -20,30 +20,18 @@ const PointsOfInterest = {
                 userPOIArray.push(poi);
             }
             const allUsers = await User.find({ 'isAdmin': false });
-            if (user.isAdmin) {
-                return h.view('homeadmin', {
-                    title: 'Admin Dashboard',
-                    user: user,
-                    users: allUsers,
-                    pointsOfInterest: pointsOfInterest,
-                },
-                    { runtimeOptions: {
-                        allowProtoMethodsByDefault: true,
-                        allowProtoPropertiesByDefault: true
-                    }
-                });
-            } else {
-                return h.view('home', {
-                    title: 'Add a Point of Interest',
-                    user: user,
-                    pointsOfInterest: userPOIArray
-                },
-                    { runtimeOptions: {
-                        allowProtoMethodsByDefault: true,
-                        allowProtoPropertiesByDefault: true
-                    }
-                });
-            }
+            return h.view('home', {
+                title: user.isAdmin ? 'Admin Dashboard' : 'User Dashboard',
+                user: user,
+                users: allUsers,
+                pointsOfInterest: user.isAdmin ? pointsOfInterest : userPOIArray
+            },
+                { runtimeOptions: {
+                    allowProtoMethodsByDefault: true,
+                    allowProtoPropertiesByDefault: true
+                }
+            });
+
         }
     },
     report: {
@@ -87,34 +75,19 @@ const PointsOfInterest = {
                     userPOIArray.push(poi);
                 }
                 const allUsers = await User.find({ 'isAdmin': false });
-                if (user.isAdmin) {
-                    return h.view('homeadmin', {
-                            title: 'Admin Dashboard',
-                            user: user,
-                            users: allUsers,
-                            pointsOfInterest: pointsOfInterest,
-                            errors: [{ message: err.message }]
-                        },
-                        { runtimeOptions: {
-                                allowProtoMethodsByDefault: true,
-                                allowProtoPropertiesByDefault: true
-                            }
-                        }).takeover().code(400);
-                } else {
-                    return h.view('home', {
-                            title: 'Add a Point of Interest',
-                            user: user,
-                            pointsOfInterest: userPOIArray,
-                            errors: [{ message: err.message }]
-                        },
-                        { runtimeOptions: {
-                                allowProtoMethodsByDefault: true,
-                                allowProtoPropertiesByDefault: true
-                            }
+                return h.view('home', {
+                        title: user.isAdmin ? 'Admin Dashboard' : 'User Dashboard',
+                        user: user,
+                        users: allUsers,
+                        pointsOfInterest: user.isAdmin ? pointsOfInterest : userPOIArray,
+                        errors: [{ message: err.message }]
+                    },
+                    { runtimeOptions: {
+                            allowProtoMethodsByDefault: true,
+                            allowProtoPropertiesByDefault: true
                         }
-                    ).takeover().code(400);
-                }
-
+                    }
+                ).takeover().code(400);
             }
         },
         handler: async function (request, h) {
@@ -174,33 +147,19 @@ const PointsOfInterest = {
                     userPOIArray.push(poi);
                 }
                 const allUsers = await User.find({ 'isAdmin': false });
-                if (user.isAdmin) {
-                    return h.view('homeadmin', {
-                            title: 'Admin Dashboard',
-                            user: user,
-                            users: allUsers,
-                            pointsOfInterest: pointsOfInterest,
-                            errors: [{ message: err.message }]
-                        },
-                        { runtimeOptions: {
-                                allowProtoMethodsByDefault: true,
-                                allowProtoPropertiesByDefault: true
-                            }
-                        });
-                } else {
-                    return h.view('home', {
-                            title: 'Add a Point of Interest',
-                            user: user,
-                            pointsOfInterest: userPOIArray,
-                            errors: [{ message: err.message }]
-                        },
-                        { runtimeOptions: {
-                                allowProtoMethodsByDefault: true,
-                                allowProtoPropertiesByDefault: true
-                            }
+                return h.view('home', {
+                        title: user.isAdmin ? 'Admin Dashboard' : 'User Dashboard',
+                        user: user,
+                        users: allUsers,
+                        pointsOfInterest: user.isAdmin ? pointsOfInterest : userPOIArray,
+                        errors: [{ message: err.message }]
+                    },
+                    { runtimeOptions: {
+                            allowProtoMethodsByDefault: true,
+                            allowProtoPropertiesByDefault: true
                         }
-                    );
-                }
+                    }
+                );
             }
         },
         payload: {
