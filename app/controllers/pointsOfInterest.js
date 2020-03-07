@@ -2,7 +2,6 @@
 
 require('dotenv').config();
 const fs = require('fs');
-const cloudinary = require('cloudinary').v2;
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const PointOfInterest = require('../models/pointOfInterest');
@@ -71,19 +70,51 @@ const PointsOfInterest = {
                 lat: Joi.number().required(),
                 lon: Joi.number().required(),
                 categories: Joi.any(),
-                image: Joi.any()
+                image: Joi.any().required()
             },
             options: {
                 abortEarly: false
             },
-            failAction: function(request, h, error) {
-                return h
-                    .view('home', {
-                        title: 'Sign up error',
-                        errors: error.details
-                    })
-                    .takeover()
-                    .code(400);
+            failAction: async function(request, h, err) {
+                // The block of code below is identical to a block in the home handler and has to be
+                // repeated twice here, as I don't know how to properly render the view with the error messages
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id);
+                const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+                const userPOIArray = [];
+                for (let id of user.contributedPOIs) {
+                    let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
+                    userPOIArray.push(poi);
+                }
+                const allUsers = await User.find({ 'isAdmin': false });
+                if (user.isAdmin) {
+                    return h.view('homeadmin', {
+                            title: 'Admin Dashboard',
+                            user: user,
+                            users: allUsers,
+                            pointsOfInterest: pointsOfInterest,
+                            errors: [{ message: err.message }]
+                        },
+                        { runtimeOptions: {
+                                allowProtoMethodsByDefault: true,
+                                allowProtoPropertiesByDefault: true
+                            }
+                        }).takeover().code(400);
+                } else {
+                    return h.view('home', {
+                            title: 'Add a Point of Interest',
+                            user: user,
+                            pointsOfInterest: userPOIArray,
+                            errors: [{ message: err.message }]
+                        },
+                        { runtimeOptions: {
+                                allowProtoMethodsByDefault: true,
+                                allowProtoPropertiesByDefault: true
+                            }
+                        }
+                    ).takeover().code(400);
+                }
+
             }
         },
         handler: async function (request, h) {
@@ -167,7 +198,8 @@ const PointsOfInterest = {
                                 allowProtoMethodsByDefault: true,
                                 allowProtoPropertiesByDefault: true
                             }
-                        });
+                        }
+                    );
                 }
             }
         },
