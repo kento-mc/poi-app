@@ -226,6 +226,11 @@ const PointsOfInterest = {
         handler: async function (request, h) {
             const id = request.auth.credentials.id;
             let user = await User.findById(id);
+            const poi = await PointOfInterest
+                .findOne()
+                .where({'_id': request.params})
+                .populate('contributor')
+                .lean();
             const contString = request.payload.contributor;
             if (user.isAdmin) {
                 user = await User.findByFullName(contString);
@@ -239,7 +244,7 @@ const PointsOfInterest = {
                 },
                 thumbnailURL: request.payload.thumbnail,
                 categories: request.payload.categories,
-                imageURL: request.payload.imageURL,
+                imageURL: poi.imageURL,
                 contributor: user._id
             };
             const newPOI = await PointOfInterest.findOneAndUpdate({'_id': request.params}, {$set: poiEdit},
@@ -261,7 +266,7 @@ const PointsOfInterest = {
             const allUsers = await User.find({ 'isAdmin': false });
             for (let user of allUsers) {
                 for (let id of user.contributedPOIs) {
-                    if (id === request.params._id) {
+                    if (id == request.params._id) {
                         let spliced = user.contributedPOIs.splice(user.contributedPOIs.indexOf(id),1);
                         console.log(spliced);
                         user.save();

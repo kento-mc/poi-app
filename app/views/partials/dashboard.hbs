@@ -29,25 +29,33 @@
                 <div class="ui raised segment">
                     <form action="/addcategory" method="POST">
                         <h4 class="ui header">{{user.firstName}}'s Custom Categories</h4>
-                        <table>
-                            <thead>
-                                <th>
-                                    <tr>
-                                        <td>
-                                            <div class="field">
-                                                <input placeholder="add new category" type="text" name="name" />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button class="ui blue submit button">+</button>
-                                        </td>
-                                    </tr>
-                                </th>
-                            </thead>
+                        <table class="ui celled table segment">
+                            <!--<thead>
+                                <tr colsspan="2">
+                                    <td>
+                                        <div class="field">
+                                            <input placeholder="add new category" type="text" name="name" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="ui blue submit button"> + </button>
+                                    </td>
+                                </tr>
+                            </thead>-->
                             <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="field">
+                                            <input placeholder="add new category" type="text" name="name" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="ui blue submit button"> + </button>
+                                    </td>
+                                </tr>
                                 {{#each user.customCategories}}
                                     <tr>
-                                        <td>
+                                        <td colspan="2">
                                             {{this}}
                                         </td>
                                     </tr>
