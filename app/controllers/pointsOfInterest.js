@@ -237,6 +237,7 @@ const PointsOfInterest = {
                     lat: request.payload.lat,
                     lon: request.payload.lon
                 },
+                thumbnailURL: request.payload.thumbnail,
                 categories: request.payload.categories,
                 imageURL: request.payload.imageURL,
                 contributor: user._id
@@ -288,8 +289,8 @@ const PointsOfInterest = {
             const poi = await PointOfInterest
                 .findOne()
                 .where({'_id': request.params})
-                .populate('contributor');
-                //.lean();
+                .populate('contributor')
+                .lean();
             const data = request.payload;
 
             if (data.image._data == 0) {
@@ -305,9 +306,33 @@ const PointsOfInterest = {
             await data.image.pipe(file);
 
             const cloudImage = await ImageStore.uploadImage(path);
-            await poi.imageURL.push(cloudImage.url);
-            await poi.save();
-            return h.redirect(`/updatepoi/${request.params._id}`);
+
+            const newArray = [...poi.imageURL];
+            newArray.push(cloudImage.url);
+
+            const poiEdit = {
+                name: poi.name,
+                description: poi.description,
+                location: {
+                    lat: poi.location.lat,
+                    lon: poi.location.lon
+                },
+                thumbnailURL: poi.thumbnailURL,
+                categories: poi.categories,
+                imageURL: newArray,
+                contributor: poi.contributor
+            };
+            const newPOI = await PointOfInterest.findOneAndUpdate({'_id': request.params}, {$set: poiEdit},
+                {
+                    new: true,
+                    useFindAndModify: false
+                }, err => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            await newPOI.save();
+            return h.redirect(`/poi/${newPOI._id}`);
         },
         payload: {
             output: 'stream',
