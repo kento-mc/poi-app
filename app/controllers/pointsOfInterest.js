@@ -6,13 +6,14 @@ const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const PointOfInterest = require('../models/pointOfInterest');
 const User = require('../models/user');
+const Category = require('../models/category');
 const ImageStore = require('../utils/image-store');
 
 const PointsOfInterest = {
     home: {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
-            const user = await User.findById(id);
+            const user = await User.findById(id).populate('customCategories');
             const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
             const userPOIArray = [];
             for (let id of user.contributedPOIs) {
@@ -282,8 +283,15 @@ const PointsOfInterest = {
         handler: async function (request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            user.customCategories.push(request.payload.name);
-            user.save();
+            const data = request.payload;
+            const newCategory = await new Category({
+                name: data.name,
+                description: null,
+                contributor: user._id
+            });
+            await newCategory.save();
+            await user.customCategories.push(newCategory._id);
+            await user.save();
             return h.redirect('/home');
         }
     },
