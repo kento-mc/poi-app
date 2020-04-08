@@ -27,7 +27,8 @@
     "cloudinary": "^1.19.0",
     "dotenv": "^8.2.0",
     "handlebars": "^4.7.3",
-    "mongoose": "^5.9.1"
+    "mongoose": "^5.9.1",
+    "minimist": ">=0.2.1"
   },
   "devDependencies": {
     "prettier": "^1.19.1"
