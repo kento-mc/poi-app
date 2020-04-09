@@ -1,0 +1,463 @@
+{
+  "users": {
+    "_model": "User",
+    "homer": {
+      "contributedPOIs": 8,
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "fullName": "Homer Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "isAdmin": false,
+      "customCategories": 2
+    },
+    "marge": {
+      "customCategories": 0,
+      "contributedPOIs": 3,
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "fullName": "Marge Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret",
+      "isAdmin": false
+    },
+    "bart": {
+      "customCategories": 1,
+      "contributedPOIs": 3,
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "fullName": "Bart Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret",
+      "isAdmin": false
+    },
+    "lisa": {
+      "customCategories": 0,
+      "contributedPOIs": 2,
+      "firstName": "Lisa",
+      "lastName": "Simpson",
+      "fullName": "Lisa Simpson",
+      "email": "lisa@simpson.com",
+      "password": "secret",
+      "isAdmin": false
+    },
+    "abe": {
+      "customCategories": 0,
+      "contributedPOIs": 1,
+      "firstName": "Abraham",
+      "lastName": "Simpson",
+      "fullName": "Abraham Simpson",
+      "email": "abe@simpson.com",
+      "password": "secret",
+      "isAdmin": false
+    },
+    "frank": {
+      "customCategories": 0,
+      "contributedPOIs": 3,
+      "firstName": "Frank",
+      "lastName": "Grimes",
+      "fullName": "Frank Grimes",
+      "email": "grimey@simpson.com",
+      "password": "secret",
+      "isAdmin": true
+    },
+    "admin": {
+      "customCategories": 0,
+      "contributedPOIs": 0,
+      "firstName": "Admin",
+      "lastName": "Istrator",
+      "fullName": "Administrator",
+      "email": "admin@simpson.com",
+      "password": "secret",
+      "isAdmin": true
+    }
+  },
+  "categories": {
+    "_model": "Category",
+    "dining": {
+      "name": "Dining",
+      "description": "",
+      "contributor": "->users.admin"
+    },
+    "park": {
+      "name": "Park",
+      "description": "",
+      "contributor": "->users.admin"
+    },
+    "walk": {
+      "name": "Walk",
+      "description": "",
+      "contributor": "->users.admin"
+    },
+    "historicSite": {
+      "name": "Historic Site",
+      "description": "",
+      "contributor": "->users.admin"
+    },
+    "homer1": {
+      "name": "homer1",
+      "description": "",
+      "contributor": "->users.homer"
+    },
+    "homer2": {
+      "name": "homer2",
+      "description": "",
+      "contributor": "->users.homer"
+    },
+    "bart1": {
+      "name": "bart1",
+      "description": "",
+      "contributor": "->users.bart"
+    },
+    "frank1": {
+      "name": "frank1",
+      "description": "",
+      "contributor": "->users.frank"
+    }
+  },
+  "pointsOfInterest": {
+    "_model": "PointOfInterest",
+    "one": {
+      "categories": [
+        "->categories.historicSite"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703565/i8f4phhwngskyfnk45ym.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703588/jvqbrydf3qxpen6hshzg.jpg"
+      ],
+      "name": "Springfield Gorge",
+      "description": "Jump it!",
+      "location": {
+        "lat": "2.3243",
+        "lon": "35.4343"
+      },
+      "contributor": "->users.bart",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703565/i8f4phhwngskyfnk45ym.png"
+    },
+    "two": {
+      "categories": [
+        "->categories.>walk",
+        "->categories.historicSite"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704472/gimkezvtnsmjosc4wg6e.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704498/bmcsxbgu8xqgri9tljda.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097825/f0tfapuxhepkgbrcfabk.jpg"
+      ],
+      "name": "The Murderhorn",
+      "description": "The murderiest mountain in Springfield",
+      "location": {
+        "lat": "32.324",
+        "lon": "56.324"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704472/gimkezvtnsmjosc4wg6e.png"
+    },
+    "three": {
+      "categories": [
+        "->categories.dining"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702455/ewh9c2yw080fvdid8oj2.png"
+      ],
+      "name": "Moe's Tavern",
+      "description": "mmmmmmmmm Duff...",
+      "location": {
+        "lat": "33.253",
+        "lon": "-2.3423"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702455/ewh9c2yw080fvdid8oj2.png"
+    },
+    "four": {
+      "categories": [
+        "->categories.historicSite",
+        "->categories.homer2"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702621/stqbkxlkvff8v2s0qaag.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702642/p8yxvaoi85jsfbcc4blr.jpg"
+      ],
+      "name": "Springfield Nuclear Power Plant",
+      "description": "Don't Forget. You're here forever",
+      "location": {
+        "lat": "53.234",
+        "lon": "-23.3453"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702621/stqbkxlkvff8v2s0qaag.png"
+    },
+    "five": {
+      "categories": [
+        "->categories.dining",
+        "->categories.walk"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702769/iwhwcrbxbbixmyt101sz.jpg",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702786/fc6tytsws4p1j5grvqi1.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702804/uhouzsyx3shogwvmyvd9.jpg"
+      ],
+      "name": "Home",
+      "description": "Home sweet home",
+      "location": {
+        "lat": "34.34325",
+        "lon": "50.34234"
+      },
+      "contributor": "->users.marge",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702769/iwhwcrbxbbixmyt101sz.jpg"
+    },
+    "six": {
+      "categories": [
+        "->categories.dining"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703301/ke9rbyh61llsiyob35eu.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703331/mttys1ofe07ijqg5zxcn.jpg"
+      ],
+      "name": "Kwik-E-Mart",
+      "description": "Squishies are bitchin'",
+      "location": {
+        "lat": "32.3253",
+        "lon": "60.3204"
+      },
+      "contributor": "->users.bart",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703301/ke9rbyh61llsiyob35eu.png"
+    },
+    "seven": {
+      "categories": [
+        "->categories.park",
+        "->categories.historicSite"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703652/xtcx6lh9aotlm3qytxu8.jpg"
+      ],
+      "name": "Springfield Elementary",
+      "description": "Study study study",
+      "location": {
+        "lat": "54.3",
+        "lon": "-122.3423"
+      },
+      "contributor": "->users.lisa",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703652/xtcx6lh9aotlm3qytxu8.jpg"
+    },
+    "eight": {
+      "categories": [
+        "->categories.dining"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704564/osfgpe5auf6riyjvc5ak.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704602/zlo0a10bb04llrae6yph.jpg"
+      ],
+      "name": "Krusty Burger",
+      "description": "mmmmmmm krusty...",
+      "location": {
+        "lat": "100.324",
+        "lon": "-22.325"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704564/osfgpe5auf6riyjvc5ak.png"
+    },
+    "nine": {
+      "categories": [
+        "->categories.dining",
+        "->categories.park",
+        "->categories.walk",
+        "->categories.frank1"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704775/sv7ttjisevl1dqoiswta.png"
+      ],
+      "name": "Springfield Mall",
+      "description": "shop!",
+      "location": {
+        "lat": "43.343",
+        "lon": "-111.345"
+      },
+      "contributor": "->users.frank",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704775/sv7ttjisevl1dqoiswta.png"
+    },
+    "ten": {
+      "categories": [
+        "->categories.historicSite"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704873/qeiblzfzy0sn1r0w8mio.jpg"
+      ],
+      "name": "Springfield Hospital",
+      "description": "Paging Dr. Nick",
+      "location": {
+        "lat": "33.54325",
+        "lon": "-70"
+      },
+      "contributor": "->users.frank",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704873/qeiblzfzy0sn1r0w8mio.jpg"
+    },
+    "eleven": {
+      "categories": [
+        "->categories.park"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705154/fk7xtnmsb6pdlznmljev.jpg"
+      ],
+      "name": "Springfield Community College",
+      "description": "Painting was fun",
+      "location": {
+        "lat": "32.234",
+        "lon": "-53.32"
+      },
+      "contributor": "->users.marge",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705154/fk7xtnmsb6pdlznmljev.jpg"
+    },
+    "twelve": {
+      "categories": [
+        "->categories.historicSite"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705310/llvb3wbbi6e1jsaqhj1o.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705325/slz3oa6vleavcaokfejz.png"
+      ],
+      "name": "Springfield Penitentiary",
+      "description": "fun for all ages!",
+      "location": {
+        "lat": "2.34",
+        "lon": "56.324"
+      },
+      "contributor": "->users.marge",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705310/llvb3wbbi6e1jsaqhj1o.png"
+    },
+    "thirteen": {
+      "categories": [
+        "->categories.walk",
+        "->categories.bart1"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705437/hglsxkfsoa3ddywmuwf0.png"
+      ],
+      "name": "My treehouse",
+      "description": "stay out!",
+      "location": {
+        "lat": "55.435",
+        "lon": "66.324"
+      },
+      "contributor": "->users.bart",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705437/hglsxkfsoa3ddywmuwf0.png"
+    },
+    "fourteen": {
+      "categories": [
+        "->categories.historicSite"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705581/k7pjnczfr1bssepdtz3b.png"
+      ],
+      "name": "Springfield town",
+      "description": "A noble spirit embiggens the smallest man",
+      "location": {
+        "lat": "75.546",
+        "lon": "-34.32"
+      },
+      "contributor": "->users.frank",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705581/k7pjnczfr1bssepdtz3b.png"
+    },
+    "fifteen": {
+      "categories": [
+        "->categories.historicSite"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705713/iw2yjlbmzyp3ctlf0mrz.png"
+      ],
+      "name": "Springfield Museum of Natural History",
+      "description": "Now with multi-ethnic cavemen!",
+      "location": {
+        "lat": "88.435",
+        "lon": "-200.35"
+      },
+      "contributor": "->users.lisa",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705713/iw2yjlbmzyp3ctlf0mrz.png"
+    },
+    "sixteen": {
+      "categories": [
+        "->categories.park"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705877/qzvzqwynmb19sgc7sewm.jpg"
+      ],
+      "name": "Burns Manor",
+      "description": "Oh, yeah, what are you gonna do? Release the dogs? Or the bees? Or the dogs with bees in their mouth and when they bark, they shoot bees at you?",
+      "location": {
+        "lat": "132.3552",
+        "lon": "90.34"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583705877/qzvzqwynmb19sgc7sewm.jpg"
+    },
+    "seventeen": {
+      "categories": [
+        "->categories.homer1"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097671/uczhh8x6kb4ro0obv6kg.jpg"
+      ],
+      "name": "A new place",
+      "description": "!!",
+      "location": {
+        "lat": "43",
+        "lon": "46"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097671/uczhh8x6kb4ro0obv6kg.jpg"
+    },
+    "eighteen": {
+      "categories": [
+        "->categories.homer2"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097680/xytlautldkuuzugnkh1k.jpg"
+      ],
+      "name": "A new place",
+      "description": "!!",
+      "location": {
+        "lat": "43",
+        "lon": "46"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097680/xytlautldkuuzugnkh1k.jpg"
+    },
+    "nineteen": {
+      "categories": [
+        "->categories.homer1",
+        "->categories.homer2"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097750/iv7qqqtkwzcdedn1wqve.jpg",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097852/sierivtn0xvq8alljuxy.png"
+      ],
+      "name": "a new place 2",
+      "description": "yay",
+      "location": {
+        "lat": "43",
+        "lon": "5"
+      },
+      "contributor": "->users.homer",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097750/iv7qqqtkwzcdedn1wqve.jpg"
+    },
+    "twenty": {
+      "categories": [
+        "->categories.dining"
+      ],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584098047/lzimuk57qpno5wb33lwf.jpg"
+      ],
+      "name": "35we",
+      "description": "erw",
+      "location": {
+        "lat": "4",
+        "lon": "6"
+      },
+      "contributor": "->users.abe",
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584098047/lzimuk57qpno5wb33lwf.jpg"
+    }
+  }
+}
+
+
+

@@ -13,10 +13,11 @@ const PointsOfInterest = {
     home: {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
-            const user = await User.findById(id).populate('customCategories');
-            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+            const user = await User.findById(id);
+            const pointsOfInterest = await PointOfInterest.find().populate('contributor').populate('categories').lean();
+            const userPOIs = await PointOfInterest.find({'contributor': id});
             const userPOIArray = [];
-            for (let id of user.contributedPOIs) {
+            for (let id of userPOIs) {
                 let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                 userPOIArray.push(poi);
             }
@@ -70,8 +71,9 @@ const PointsOfInterest = {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+                const userPOIs = await PointOfInterest.find({'contributor': id});
                 const userPOIArray = [];
-                for (let id of user.contributedPOIs) {
+                for (let id of userPOIs) {
                     let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                     userPOIArray.push(poi);
                 }
@@ -124,7 +126,9 @@ const PointsOfInterest = {
                 });
                 newPOI.thumbnailURL = newPOI.imageURL[0];
                 await newPOI.save();
-                const poi = await PointOfInterest
+                user.contributedPOIs++;
+                await user.save();
+                /*const poi = await PointOfInterest
                     .findOne()
                     .where({'imageURL': cloudImage.url})
                     .populate('contributor')
@@ -136,14 +140,15 @@ const PointsOfInterest = {
                         user.contributedPOIs.push(poi._id);
                         user.save();
                     }
-                });
+                });*/
                 return h.redirect('/home');
             } catch (err) {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+                const userPOIs = await PointOfInterest.find({'contributor': id});
                 const userPOIArray = [];
-                for (let id of user.contributedPOIs) {
+                for (let id of userPOIs) {
                     let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                     userPOIArray.push(poi);
                 }
@@ -290,7 +295,7 @@ const PointsOfInterest = {
                 contributor: user._id
             });
             await newCategory.save();
-            await user.customCategories.push(newCategory._id);
+            user.customCategories++;
             await user.save();
             return h.redirect('/home');
         }

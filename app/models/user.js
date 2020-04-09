@@ -11,14 +11,8 @@ const userSchema = new Schema({
     email: String,
     password: String,
     isAdmin: Boolean,
-    customCategories: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Category'
-    }],
-    contributedPOIs: [{
-        type: Schema.Types.ObjectId,
-        ref: 'pointsofinterest'
-    }]
+    customCategories: Number,
+    contributedPOIs: Number
 });
 
 userSchema.statics.findByEmail = function(email) {
