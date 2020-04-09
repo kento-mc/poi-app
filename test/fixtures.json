@@ -1,0 +1,41 @@
+{
+  "pois": [
+    {
+      "name": "Springfield Gorge",
+      "description": "Jump it!",
+      "location": {
+        "lat": 150.123,
+        "lon": -150.11
+      },
+      "categories": [],
+      "imageURL": ["https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926"],
+      "thumbnailURL": "https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926",
+      "contributor": null
+    },
+    {
+      "name": "The Murderhorn",
+      "description": "The murderiest mountain in Springfield",
+      "location": {
+        "lat": 30.23,
+        "lon": -30.234
+      },
+      "categories": [],
+      "imageURL": ["https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926"],
+      "thumbnailURL": "https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926",
+      "contributor": null
+    }
+  ],
+  "newPOI":
+  {
+    "name": "Duff Stadium",
+    "description": "Home of the Isotopes",
+    "location": {
+      "lat": 50.0,
+      "lon": -50.532
+    },
+    "categories": [],
+    "imageURL": ["https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926"],
+    "thumbnailURL": "https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926",
+    "contributor": null
+  }
+}

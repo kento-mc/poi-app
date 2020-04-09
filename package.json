@@ -32,6 +32,9 @@
     "mongoose": "^5.9.1"
   },
   "devDependencies": {
+    "axios": "^0.19.2",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
     "prettier": "^1.19.1"
   },
   "prettier": {

@@ -11,11 +11,12 @@ const PointsOfInterest = {
             return pois;
         }
     },
+
     findOne: {
         auth: false,
         handler: async function(request, h) {
             try {
-                const poi = await PointOfInterest.findOne({_id: request.params._id});
+                const poi = await PointOfInterest.findOne({_id: request.params.id});
                 if (!poi) {
                     return Boom.notFound('No point of interest with this id');
                 }
@@ -23,6 +24,37 @@ const PointsOfInterest = {
             } catch (err) {
                 return Boom.notFound('No point of interest with this id');
             }
+        }
+    },
+
+    create: {
+        auth: false,
+        handler: async function(request, h) {
+            const newPOI = new PointOfInterest(request.payload);
+            const poi = await newPOI.save();
+            if (poi) {
+                return h.response(poi).code(201);
+            }
+            return Boom.badImplementation('error creating poi');
+        }
+    },
+
+    deleteAll: {
+        auth: false,
+        handler: async function(request, h) {
+            await PointOfInterest.remove({});
+            return { success: true };
+        }
+    },
+
+    deleteOne: {
+        auth: false,
+        handler: async function(request, h) {
+            const poi = await PointOfInterest.remove({ _id: request.params.id });
+            if (poi) {
+                return { success: true };
+            }
+            return Boom.notFound('id not found');
         }
     }
 };
