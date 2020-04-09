@@ -16,8 +16,8 @@ const PointsOfInterest = {
             const user = await User.findById(id);
             const pointsOfInterest = await PointOfInterest.find().populate('contributor').populate('categories').lean();
             const userPOIs = await PointOfInterest.find({'contributor': id}).populate('contributor').populate('categories').lean();
-            const userPOIArray = [];
-            /*for (let id of userPOIs) {
+            /*const userPOIArray = [];
+            for (let id of userPOIs) {
                 let poi = await PointOfInterest.findOne().where({'_id': id});
                 userPOIArray.push(poi);
             }*/
@@ -272,8 +272,9 @@ const PointsOfInterest = {
     },
     deletePOI: {
         handler: async function (request, h) {
-            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
-            const allUsers = await User.find({ 'isAdmin': false });
+            const poi = await PointOfInterest.findOne().where({'_id': request.params})
+            const user = await User.findOne().where({"_id": poi.contributor});
+            /*const allUsers = await User.find({ 'isAdmin': false });
             for (let user of allUsers) {
                 for (let id of user.contributedPOIs) {
                     if (id == request.params._id) {
@@ -282,8 +283,10 @@ const PointsOfInterest = {
                         user.save();
                     }
                 }
-            }
+            }*/
             await PointOfInterest.deleteOne({'_id': request.params}, err => console.log(err));
+            user.contributedPOIs--;
+            await user.save();
             console.log('POI deleted');
             return h.redirect('/report');
         }
