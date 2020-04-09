@@ -4,6 +4,7 @@
             {{#if user.isAdmin}}
                 <h1 class="ten wide column">
                     {{user.firstName}} {{user.lastName}}'s Admin Dashboard
+                </h1>
             {{else}}
                 <h1 class="six wide column">
                     {{user.firstName}} {{user.lastName}}'s Dashboard
@@ -15,7 +16,7 @@
             {{else}}
                 <aside class="ten wide column">
                     <h1>
-                        POIs : {{user.contributedPOIs.length}}
+                        POIs : {{user.contributedPOIs}}
                     </h1>
                 </aside>
             {{/if}}
@@ -53,7 +54,7 @@
                                         <button class="ui blue submit button"> + </button>
                                     </td>
                                 </tr>
-                                {{#each user.customCategories}}
+                                {{#each userCategories}}
                                     <tr>
                                         <td colspan="2">
                                             {{name}}

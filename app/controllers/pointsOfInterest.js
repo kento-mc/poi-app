@@ -15,18 +15,20 @@ const PointsOfInterest = {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
             const pointsOfInterest = await PointOfInterest.find().populate('contributor').populate('categories').lean();
-            const userPOIs = await PointOfInterest.find({'contributor': id});
+            const userPOIs = await PointOfInterest.find({'contributor': id}).populate('contributor').populate('categories').lean();
             const userPOIArray = [];
-            for (let id of userPOIs) {
-                let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
+            /*for (let id of userPOIs) {
+                let poi = await PointOfInterest.findOne().where({'_id': id});
                 userPOIArray.push(poi);
-            }
+            }*/
+            const userCategories = await Category.find({"contributor": id});
             const allUsers = await User.find({ 'isAdmin': false });
             return h.view('home', {
                 title: user.isAdmin ? 'Admin Dashboard' : 'User Dashboard',
                 user: user,
                 users: allUsers,
-                pointsOfInterest: user.isAdmin ? pointsOfInterest : userPOIArray
+                userCategories: userCategories,
+                pointsOfInterest: user.isAdmin ? pointsOfInterest : userPOIs
             },
                 { runtimeOptions: {
                     allowProtoMethodsByDefault: true,
@@ -40,7 +42,7 @@ const PointsOfInterest = {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+            const pointsOfInterest = await PointOfInterest.find().populate('contributor').populate('categories').lean();
             return h.view('report', {
                 title: 'Points of Interest added to date',
                 user: user,
@@ -182,6 +184,7 @@ const PointsOfInterest = {
                 .findOne()
                 .where({'_id': request.params})
                 .populate('contributor')
+                .populate('categories')
                 .lean();
             const imageURLs  = [];
             for (let i = 0; i < poi.imageURL.length - 1; i++) {
@@ -210,6 +213,7 @@ const PointsOfInterest = {
                 .findOne()
                 .where({'_id': request.params})
                 .populate('contributor')
+                .populate('categories')
                 .lean();
             const imageURLs  = [];
             for (let i = 0; i < poi.imageURL.length - 1; i++) {
@@ -291,7 +295,7 @@ const PointsOfInterest = {
             const data = request.payload;
             const newCategory = await new Category({
                 name: data.name,
-                description: null,
+                description: "",
                 contributor: user._id
             });
             await newCategory.save();
