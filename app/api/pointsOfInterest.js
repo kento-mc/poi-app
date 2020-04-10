@@ -42,7 +42,7 @@ const PointsOfInterest = {
     deleteAll: {
         auth: false,
         handler: async function(request, h) {
-            await PointOfInterest.remove({});
+            await PointOfInterest.deleteMany({});
             return { success: true };
         }
     },

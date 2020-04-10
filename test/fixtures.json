@@ -1,5 +1,54 @@
 {
   "poiService": "http://localhost:3000",
+  "users": [
+    {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "fullName": "Homer Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "isAdmin": false,
+      "customCategories": 2,
+      "contributedPOIs": 8
+    },
+    {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "fullName": "Marge Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret",
+      "isAdmin": false,
+      "customCategories": 0,
+      "contributedPOIs": 3
+    },
+    {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "fullName": "Bart Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret",
+      "isAdmin": false,
+      "customCategories": 1,
+      "contributedPOIs": 3
+    }
+  ],
+  "categories": [
+    {
+      "name": "Dining",
+      "description": "Place to eat",
+      "contributor": null
+    },
+    {
+      "name": "Park",
+      "description": "Place to have a picnic",
+      "contributor": null
+    },
+    {
+      "name": "Walk",
+      "description": "Place to walk",
+      "contributor": null
+    }
+  ],
   "pois": [
     {
       "name": "Springfield Gorge",
@@ -9,8 +58,11 @@
         "lon": -150.11
       },
       "categories": [],
-      "imageURL": ["https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926"],
-      "thumbnailURL": "https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926",
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703565/i8f4phhwngskyfnk45ym.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703588/jvqbrydf3qxpen6hshzg.jpg"
+      ],
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583703565/i8f4phhwngskyfnk45ym.png",
       "contributor": null
     },
     {
@@ -21,13 +73,45 @@
         "lon": -30.234
       },
       "categories": [],
-      "imageURL": ["https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926"],
-      "thumbnailURL": "https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926",
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704472/gimkezvtnsmjosc4wg6e.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704498/bmcsxbgu8xqgri9tljda.png",
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1584097825/f0tfapuxhepkgbrcfabk.jpg"
+      ],
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583704472/gimkezvtnsmjosc4wg6e.png",
+      "contributor": null
+    },
+    {
+      "name": "Moe's Tavern",
+      "description": "mmmmmmmmm Duff...",
+      "location": {
+        "lat": 33.253,
+        "lon": -2.3423
+      },
+      "categories": [],
+      "imageURL": [
+        "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702455/ewh9c2yw080fvdid8oj2.png"
+      ],
+      "thumbnailURL": "http://res.cloudinary.com/dwgak0rbs/image/upload/v1583702455/ewh9c2yw080fvdid8oj2.png",
       "contributor": null
     }
   ],
-  "newPOI":
-  {
+  "newUser": {
+    "firstName": "Lisa",
+    "lastName": "Simpson",
+    "fullName": "Lisa Simpson",
+    "email": "lisa@simpson.com",
+    "password": "secret",
+    "isAdmin": false,
+    "customCategories": 0,
+    "contributedPOIs": 2
+  },
+  "newCategory": {
+    "name": "Historic Site",
+    "description": "Historic place",
+    "contributor": null
+  },
+  "newPOI": {
     "name": "Duff Stadium",
     "description": "Home of the Isotopes",
     "location": {
@@ -35,7 +119,9 @@
       "lon": -50.532
     },
     "categories": [],
-    "imageURL": ["https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926"],
+    "imageURL": [
+      "https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926"
+    ],
     "thumbnailURL": "https://vignette.wikia.nocookie.net/simpsons/images/4/48/Duff_Stadium.png/revision/latest?cb=20100331225926",
     "contributor": null
   }

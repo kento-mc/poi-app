@@ -9,6 +9,10 @@ suite('POI API tests', () => {
 
     let pois = fixtures.pois;
     let newPOI = fixtures.newPOI;
+    let users = fixtures.users;
+    let newUser = fixtures.newUser;
+    let categories = fixtures.categories;
+    let newCategory = fixtures.newCategory;
 
     const poiService = new POIService('http://localhost:3000');
 
