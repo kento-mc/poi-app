@@ -73,6 +73,60 @@ class POIService {
             return null;
         }
     }
+
+    async createCategory(id, category) {
+        try {
+            const response = await axios.post(this.baseUrl + '/api/users/' + id + '/categories', category);
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getCategories(id) {
+        try {
+            const response = await axios.get(this.baseUrl + '/api/categories');
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getDefaultCategories(id) {
+        try {
+            const response = await axios.get(this.baseUrl + '/api/categories/defaults/' + id);
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getCategoryByUser(id) {
+        try {
+            const response = await axios.get(this.baseUrl + '/api/users/' + id + '/categories');
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async deleteOneCategory(id) {
+        try {
+            const response = await axios.delete(this.baseUrl + '/api/categories/' + id);
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async deleteAllCategories() {
+        try {
+            const response = await axios.delete(this.baseUrl + '/api/categories');
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 
 module.exports = POIService;
