@@ -1,4 +1,5 @@
 {
+  "poiService": "http://localhost:3000",
   "pois": [
     {
       "name": "Springfield Gorge",

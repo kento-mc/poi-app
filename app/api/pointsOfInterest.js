@@ -50,8 +50,8 @@ const PointsOfInterest = {
     deleteOne: {
         auth: false,
         handler: async function(request, h) {
-            const poi = await PointOfInterest.remove({ _id: request.params.id });
-            if (poi) {
+            const response = await PointOfInterest.deleteOne({ _id: request.params.id });
+            if (response.deletedCount ==1) {
                 return { success: true };
             }
             return Boom.notFound('id not found');
