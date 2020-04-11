@@ -16,6 +16,7 @@ module.exports = [
     { method: 'DELETE', path: '/api/users', config: Users.deleteAll },
 
     { method: 'GET', path: '/api/categories', config: Categories.findAll },
+    { method: 'GET', path: '/api/categories/{id}', config: Categories.findOne },
     { method: 'GET', path: '/api/categories/defaults/{id}', config: Categories.findDefaults },
     { method: 'GET', path: '/api/users/{id}/categories', config: Categories.findByUser },
     { method: 'POST', path: '/api/users/{id}/categories', config: Categories.create },

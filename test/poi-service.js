@@ -83,9 +83,18 @@ class POIService {
         }
     }
 
-    async getCategories(id) {
+    async getCategories() {
         try {
             const response = await axios.get(this.baseUrl + '/api/categories');
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getCategory(catId) {
+        try {
+            const response = await axios.get( this.baseUrl + '/api/categories/' + catId)
             return response.data;
         } catch (e) {
             return null;

@@ -5,20 +5,21 @@ const POIService = require('./poi-service');
 const fixtures = require('./fixtures.json');
 const _ = require('lodash');
 
-suite('Donation API tests', function() {
+suite('Category API tests', function() {
     let categories = fixtures.categories;
+    let users = fixtures.users;
     let newUser = fixtures.newUser;
 
     const poiService = new POIService(fixtures.poiService);
 
     setup(async function() {
-        poiService.deleteAllUsers();
-        poiService.deleteAllCategories();
+        await poiService.deleteAllUsers();
+        await poiService.deleteAllCategories();
     });
 
     teardown(async function() {
-        poiService.deleteAllUsers();
-        poiService.deleteAllCategories();
+        await poiService.deleteAllUsers();
+        await poiService.deleteAllCategories();
     });
 
     test('create a category', async function() {
@@ -30,51 +31,94 @@ suite('Donation API tests', function() {
         assert(_.some([returnedCategories[0]], categories[0]), 'returned category must be a superset of category');
     });
 
-    //TODO
     test('create multiple categories', async function() {
-        const returnedCandidate = await donationService.createCandidate(newCandidate);
-        for (var i = 0; i < donations.length; i++) {
-            await donationService.makeDonation(returnedCandidate._id, donations[i]);
+        const returnedUser = await poiService.createUser(newUser);
+        for (let i = 0; i < categories.length; i++) {
+            await poiService.createCategory(returnedUser._id, categories[i]);
+            categories[i].contributor = returnedUser._id;
         }
 
-        const returnedDonations = await donationService.getDonations(returnedCandidate._id);
-        assert.equal(returnedDonations.length, donations.length);
-        for (var i = 0; i < donations.length; i++) {
-            assert(_.some([returnedDonations[i]], donations[i]), 'returned donation must be a superset of donation');
+        const returnedCategories = await poiService.getCategories(returnedUser._id);
+        assert.equal(returnedCategories.length, categories.length);
+        for (let i = 0; i < categories.length; i++) {
+            assert(_.some([returnedCategories[i]], categories[i]), 'returned category must be a superset of category');
         }
     });
 
     test('get categories', async function() {
-
+        const returnedUser = await poiService.createUser(newUser);
+        for (let i = 0; i < categories.length; i++) {
+            await poiService.createCategory(returnedUser._id, categories[i]);
+        }
+        const c = await poiService.getCategories();
+        assert.equal(c.length, categories.length);
     });
 
     test('get default categories', async function() {
+        const returnedUser = await poiService.createUser(newUser);
+        for (let i = 0; i < categories.length; i++) {
+            await poiService.createCategory(returnedUser._id, categories[i]);
+        }
+        const adminUser = await poiService.createUser(newUser);
+        for (let i = 0; i < 2; i++) {
+            await poiService.createCategory(adminUser._id, categories[i]);
+        }
+        const allCs = await poiService.getCategories();
+        assert.equal(allCs.length, 5);
+        const defaultCs = await poiService.getDefaultCategories(adminUser._id)
+        assert.equal(defaultCs.length, 2);
 
     });
 
     test('get categories by user', async function() {
-
+        const user1 = await poiService.createUser(newUser);
+        const user2 = await poiService.createUser(newUser);
+        for (let i = 0; i < categories.length; i++) {
+            await poiService.createCategory(user1._id, categories[i]);
+            await poiService.createCategory(user2._id, categories[i]);
+        }
+        const allCs = await poiService.getCategories();
+        assert.equal(allCs.length, 6);
+        const user2Cs = await poiService.getCategoryByUser(user2._id)
+        assert.equal(user2Cs.length, 3);
     });
 
     test('get category', async function() {
-
+        const returnedUser = await poiService.createUser(newUser);
+        for (let i = 0; i < categories.length; i++) {
+            await poiService.createCategory(returnedUser._id, categories[i]);
+        }
+        const allCs = await poiService.getCategories();
+        const gotC = await poiService.getCategory(allCs[0]._id);
+        assert.equal(gotC[0]._id, allCs[0]._id);
     });
 
     test('delete one category', async function() {
-
+        const returnedUser = await poiService.createUser(newUser);
+        for (let i = 0; i < categories.length; i++) {
+            await poiService.createCategory(returnedUser._id, categories[i]);
+        }
+        const allCs = await poiService.getCategories();
+        assert.equal(allCs.length, 3);
+        const idToDelete = allCs[1]._id;
+        await poiService.deleteOneCategory(idToDelete);
+        const oneLess = await poiService.getCategories()
+        assert.equal(oneLess.length, 2);
+        for (let i = 0; i < oneLess.length; i++) {
+            assert.notEqual(oneLess[i]._id, idToDelete);
+        }
     });
 
-    //TODO
     test('delete all categories', async function() {
-        const returnedCandidate = await donationService.createCandidate(newCandidate);
-        for (var i = 0; i < donations.length; i++) {
-            await donationService.makeDonation(returnedCandidate._id, donations[i]);
+        const returnedUser = await poiService.createUser(newUser);
+        for (let i = 0; i < categories.length; i++) {
+            await poiService.createCategory(returnedUser._id, categories[i]);
         }
 
-        const d1 = await donationService.getDonations(returnedCandidate._id);
-        assert.equal(d1.length, donations.length);
-        await donationService.deleteAllDonations();
-        const d2 = await donationService.getDonations(returnedCandidate._id);
-        assert.equal(d2.length, 0);
+        const c1 = await poiService.getCategories(returnedUser._id);
+        assert.equal(c1.length, categories.length);
+        await poiService.deleteAllCategories();
+        const c2 = await poiService.getCategories(returnedUser._id);
+        assert.equal(c2.length, 0);
     });
 });
