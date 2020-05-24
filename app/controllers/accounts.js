@@ -49,6 +49,9 @@ const Accounts = {
                     const message = 'Email address is already registered';
                     throw Boom.badData(message);
                 }
+
+                //TODO hashing and salting
+
                 const newUser = new User({
                     firstName: payload.firstName,
                     lastName: payload.lastName,
