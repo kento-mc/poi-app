@@ -33,12 +33,14 @@ suite('Category API tests', function() {
 
     test('create multiple categories', async function() {
         const returnedUser = await poiService.createUser(newUser);
+        for (let cat of categories){
+            cat.contributor = returnedUser._id;
+        }
         for (let i = 0; i < categories.length; i++) {
-            await poiService.createCategory(returnedUser._id, categories[i]);
-            categories[i].contributor = returnedUser._id;
+            let newCat = await poiService.createCategory(returnedUser._id, categories[i]);
         }
 
-        const returnedCategories = await poiService.getCategories(returnedUser._id);
+        const returnedCategories = await poiService.getCategoryByUser(returnedUser._id);
         assert.equal(returnedCategories.length, categories.length);
         for (let i = 0; i < categories.length; i++) {
             assert(_.some([returnedCategories[i]], categories[i]), 'returned category must be a superset of category');
@@ -90,7 +92,7 @@ suite('Category API tests', function() {
         }
         const allCs = await poiService.getCategories();
         const gotC = await poiService.getCategory(allCs[0]._id);
-        assert.equal(gotC[0]._id, allCs[0]._id);
+        assert.equal(gotC._id, allCs[0]._id);
     });
 
     test('delete one category', async function() {
