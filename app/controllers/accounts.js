@@ -63,6 +63,13 @@ const Accounts = {
             } catch (err) {
                 return h.view('signup', { errors: [{ message: err.message }] });
             }
+        },
+        plugins: {
+            disinfect: {
+                disinfectQuery: true,
+                disinfectParams: false,
+                disinfectPayload: true
+            }
         }
     },
     showLogin: {
@@ -110,6 +117,13 @@ const Accounts = {
                 }
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
+            }
+        },
+        plugins: {
+            disinfect: {
+                disinfectQuery: true,
+                disinfectParams: false,
+                disinfectPayload: true
             }
         }
     },
@@ -165,6 +179,13 @@ const Accounts = {
             user.password = userEdit.password;
             await user.save();
             return h.redirect('/settings');
+        },
+        plugins: {
+            disinfect: {
+                disinfectQuery: true,
+                disinfectParams: false,
+                disinfectPayload: true
+            }
         }
     },
     deleteUser: {

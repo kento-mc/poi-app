@@ -6,6 +6,7 @@ const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const PointOfInterest = require('../models/pointOfInterest');
 const User = require('../models/user');
+const Category = require('../models/category');
 const ImageStore = require('../utils/image-store');
 
 const PointsOfInterest = {
@@ -13,18 +14,21 @@ const PointsOfInterest = {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
-            const userPOIArray = [];
-            for (let id of user.contributedPOIs) {
-                let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
+            const pointsOfInterest = await PointOfInterest.find().populate('contributor').populate('categories').lean();
+            const userPOIs = await PointOfInterest.find({'contributor': id}).populate('contributor').populate('categories').lean();
+            /*const userPOIArray = [];
+            for (let id of userPOIs) {
+                let poi = await PointOfInterest.findOne().where({'_id': id});
                 userPOIArray.push(poi);
-            }
+            }*/
+            const userCategories = await Category.find({"contributor": id});
             const allUsers = await User.find({ 'isAdmin': false });
             return h.view('home', {
                 title: user.isAdmin ? 'Admin Dashboard' : 'User Dashboard',
                 user: user,
                 users: allUsers,
-                pointsOfInterest: user.isAdmin ? pointsOfInterest : userPOIArray
+                userCategories: userCategories,
+                pointsOfInterest: user.isAdmin ? pointsOfInterest : userPOIs
             },
                 { runtimeOptions: {
                     allowProtoMethodsByDefault: true,
@@ -38,7 +42,7 @@ const PointsOfInterest = {
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+            const pointsOfInterest = await PointOfInterest.find().populate('contributor').populate('categories').lean();
             return h.view('report', {
                 title: 'Points of Interest added to date',
                 user: user,
@@ -69,8 +73,9 @@ const PointsOfInterest = {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+                const userPOIs = await PointOfInterest.find({'contributor': id});
                 const userPOIArray = [];
-                for (let id of user.contributedPOIs) {
+                for (let id of userPOIs) {
                     let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                     userPOIArray.push(poi);
                 }
@@ -123,7 +128,9 @@ const PointsOfInterest = {
                 });
                 newPOI.thumbnailURL = newPOI.imageURL[0];
                 await newPOI.save();
-                const poi = await PointOfInterest
+                user.contributedPOIs++;
+                await user.save();
+                /*const poi = await PointOfInterest
                     .findOne()
                     .where({'imageURL': cloudImage.url})
                     .populate('contributor')
@@ -135,14 +142,15 @@ const PointsOfInterest = {
                         user.contributedPOIs.push(poi._id);
                         user.save();
                     }
-                });
+                });*/
                 return h.redirect('/home');
             } catch (err) {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
+                const userPOIs = await PointOfInterest.find({'contributor': id});
                 const userPOIArray = [];
-                for (let id of user.contributedPOIs) {
+                for (let id of userPOIs) {
                     let poi = await PointOfInterest.findOne().where({'_id': id}).lean();
                     userPOIArray.push(poi);
                 }
@@ -176,6 +184,7 @@ const PointsOfInterest = {
                 .findOne()
                 .where({'_id': request.params})
                 .populate('contributor')
+                .populate('categories')
                 .lean();
             const imageURLs  = [];
             for (let i = 0; i < poi.imageURL.length - 1; i++) {
@@ -204,6 +213,7 @@ const PointsOfInterest = {
                 .findOne()
                 .where({'_id': request.params})
                 .populate('contributor')
+                .populate('categories')
                 .lean();
             const imageURLs  = [];
             for (let i = 0; i < poi.imageURL.length - 1; i++) {
@@ -262,8 +272,9 @@ const PointsOfInterest = {
     },
     deletePOI: {
         handler: async function (request, h) {
-            const pointsOfInterest = await PointOfInterest.find().populate('contributor').lean();
-            const allUsers = await User.find({ 'isAdmin': false });
+            const poi = await PointOfInterest.findOne().where({'_id': request.params})
+            const user = await User.findOne().where({"_id": poi.contributor});
+            /*const allUsers = await User.find({ 'isAdmin': false });
             for (let user of allUsers) {
                 for (let id of user.contributedPOIs) {
                     if (id == request.params._id) {
@@ -272,8 +283,10 @@ const PointsOfInterest = {
                         user.save();
                     }
                 }
-            }
+            }*/
             await PointOfInterest.deleteOne({'_id': request.params}, err => console.log(err));
+            user.contributedPOIs--;
+            await user.save();
             console.log('POI deleted');
             return h.redirect('/report');
         }
@@ -282,8 +295,15 @@ const PointsOfInterest = {
         handler: async function (request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
-            user.customCategories.push(request.payload.name);
-            user.save();
+            const data = request.payload;
+            const newCategory = await new Category({
+                name: data.name,
+                description: "",
+                contributor: user._id
+            });
+            await newCategory.save();
+            user.customCategories++;
+            await user.save();
             return h.redirect('/home');
         }
     },

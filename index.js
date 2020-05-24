@@ -19,6 +19,14 @@ async function init() {
     await server.register(require('@hapi/inert'));
     await server.register(require('@hapi/vision'));
     await server.register(require('@hapi/cookie'));
+    await server.register({
+        plugin: require('disinfect'),
+        options: {
+            disinfectQuery: true,
+            disinfectParams: true,
+            disinfectPayload: true
+        }
+    });
 
     server.validator(require('@hapi/joi'))
 
@@ -49,6 +57,7 @@ async function init() {
     server.auth.default('session');
 
     server.route(require('./routes'));
+    server.route(require('./routes-api'));
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
 }

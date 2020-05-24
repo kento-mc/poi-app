@@ -11,11 +11,8 @@ const userSchema = new Schema({
     email: String,
     password: String,
     isAdmin: Boolean,
-    customCategories: [String],
-    contributedPOIs: [{
-        type: Schema.Types.ObjectId,
-        ref: 'pointsofinterest'
-    }]
+    customCategories: Number, //TODO update using category model...maybe
+    contributedPOIs: Number  //TODO update using poi model...maybe
 });
 
 userSchema.statics.findByEmail = function(email) {
