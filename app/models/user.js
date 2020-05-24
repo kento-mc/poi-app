@@ -29,13 +29,4 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
     return isMatch;
 };
 
-// leaving this for the moment in case Boom is needed
-/*userSchema.methods.comparePassword = function(candidatePassword) {
-    const isMatch = this.password === candidatePassword;
-    if (!isMatch) {
-        throw Boom.unauthorized('Password mismatch');
-    }
-    return this;
-};*/
-
 module.exports = Mongoose.model('User', userSchema);

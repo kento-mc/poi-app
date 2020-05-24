@@ -179,13 +179,16 @@ const Accounts = {
         },
         handler: async function(request, h) {
             const userEdit = request.payload;
+
+            const hash = await bcrypt.hash(userEdit.password, saltRounds);
+
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
             user.firstName = userEdit.firstName;
             user.lastName = userEdit.lastName;
             user.fullName = `${userEdit.firstName} ${userEdit.lastName}`
             user.email = userEdit.email;
-            user.password = userEdit.password;
+            user.password = hash;
             await user.save();
             return h.redirect('/settings');
         },
