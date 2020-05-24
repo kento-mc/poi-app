@@ -25,6 +25,8 @@ suite('POI API tests', () => {
     });
 
     test('create a poi', async () => {
+        const returnedUser = await poiService.createUser(newUser);
+        newPOI.contributor = returnedUser._id;
         const returnedPOI = await poiService.createPOI(newPOI);
         assert(_.some([returnedPOI], newPOI),  'returnedPOI must be a superset of newPOI');
         assert.isDefined(returnedPOI._id);
@@ -52,7 +54,9 @@ suite('POI API tests', () => {
     });
 
     test('get all pois', async function () {
+        const returnedUser = await poiService.createUser(newUser);
         for (let poi of pois) {
+            poi.contributor = returnedUser._id;
             await poiService.createPOI(poi);
         }
 
