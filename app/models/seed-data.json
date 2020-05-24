@@ -7,7 +7,7 @@
       "lastName": "Simpson",
       "fullName": "Homer Simpson",
       "email": "homer@simpson.com",
-      "password": "secret",
+      "password": "$2a$10$HnapEWWKQQ0.0Ft33nXxtuJ0fsmd9ywYswEzT4C.6Ul5y6cOU.UEa",
       "isAdmin": false,
       "customCategories": 2
     },
@@ -18,7 +18,7 @@
       "lastName": "Simpson",
       "fullName": "Marge Simpson",
       "email": "marge@simpson.com",
-      "password": "secret",
+      "password": "$2a$10$D3TWK8MSAh63Lhk4gIFSJ.ekM368J88qJRUYSbuBfzffex6B0dFwK",
       "isAdmin": false
     },
     "bart": {
@@ -28,7 +28,7 @@
       "lastName": "Simpson",
       "fullName": "Bart Simpson",
       "email": "bart@simpson.com",
-      "password": "secret",
+      "password": "$2a$10$uqnPlgyVjBEOtcgMhn/WRO3FwW4T9gX36tTB4RqpGeB/LkCR3YQuO",
       "isAdmin": false
     },
     "lisa": {
@@ -38,7 +38,7 @@
       "lastName": "Simpson",
       "fullName": "Lisa Simpson",
       "email": "lisa@simpson.com",
-      "password": "secret",
+      "password": "$2y$10$ZOtMsolwsufXp6RQoJ/Z3OSst8C5wOEjpTey/XDq/Y8vGSlRiXeBW",
       "isAdmin": false
     },
     "abe": {
@@ -48,7 +48,7 @@
       "lastName": "Simpson",
       "fullName": "Abraham Simpson",
       "email": "abe@simpson.com",
-      "password": "secret",
+      "password": "$2y$10$DKdP5ztB4gl3KEWIw8DBruJEyOOjy05HUZegh4f5KH2vqn4kmHOJK",
       "isAdmin": false
     },
     "frank": {
@@ -58,7 +58,7 @@
       "lastName": "Grimes",
       "fullName": "Frank Grimes",
       "email": "grimey@simpson.com",
-      "password": "secret",
+      "password": "$2y$10$emSc0kgxYM8OjKKSO0Nmf.LiQnJx35cvh1l/JjVNx6E3xge/q.S6q",
       "isAdmin": true
     },
     "admin": {
@@ -68,7 +68,7 @@
       "lastName": "Istrator",
       "fullName": "Administrator",
       "email": "admin@simpson.com",
-      "password": "secret",
+      "password": "$2y$10$ZUBd8kA4apWHSmnClrts0urJLdgGAJ/r/Hw7OYAGcGtH3kRSxWzZe",
       "isAdmin": true
     }
   },
