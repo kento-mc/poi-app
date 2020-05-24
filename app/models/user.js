@@ -11,8 +11,8 @@ const userSchema = new Schema({
     email: String,
     password: String,
     isAdmin: Boolean,
-    customCategories: Number,
-    contributedPOIs: Number
+    customCategories: Number, //TODO update using category model
+    contributedPOIs: Number  //TODO update using poi model
 });
 
 userSchema.statics.findByEmail = function(email) {
