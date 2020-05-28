@@ -3,6 +3,8 @@
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const Accounts = {
     index: {
@@ -50,14 +52,14 @@ const Accounts = {
                     throw Boom.badData(message);
                 }
 
-                //TODO hashing and salting
+                const hash = await bcrypt.hash(payload.password, saltRounds);
 
                 const newUser = new User({
                     firstName: payload.firstName,
                     lastName: payload.lastName,
                     fullName: `${payload.firstName} ${payload.lastName}`,
                     email: payload.email,
-                    password: payload.password,
+                    password: hash,
                     isAdmin: false
                 });
                 user = await newUser.save();
@@ -111,12 +113,16 @@ const Accounts = {
                     const message = 'Email address is not registered';
                     throw Boom.unauthorized(message);
                 }
-                user.comparePassword(password);
-                request.cookieAuth.set({ id: user.id });
-                if (user.isAdmin) {
-                    return h.redirect('/homeadmin')
+                if (!await user.comparePassword(password)) {
+                    const message = 'Password mismatch';
+                    throw Boom.unauthorized(message);
                 } else {
-                    return h.redirect('/home');
+                    request.cookieAuth.set({ id: user.id });
+                    if (user.isAdmin) {
+                        return h.redirect('/homeadmin')
+                    } else {
+                        return h.redirect('/home');
+                    }
                 }
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
@@ -173,13 +179,16 @@ const Accounts = {
         },
         handler: async function(request, h) {
             const userEdit = request.payload;
+
+            const hash = await bcrypt.hash(userEdit.password, saltRounds);
+
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
             user.firstName = userEdit.firstName;
             user.lastName = userEdit.lastName;
             user.fullName = `${userEdit.firstName} ${userEdit.lastName}`
             user.email = userEdit.email;
-            user.password = userEdit.password;
+            user.password = hash;
             await user.save();
             return h.redirect('/settings');
         },
