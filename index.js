@@ -13,20 +13,21 @@ const cloudinaryCredentials = {
 
 const server = Hapi.server({
     port: process.env.PORT || 3000,
+    routes: { cors: true }
 });
 
 async function init() {
     await server.register(require('@hapi/inert'));
     await server.register(require('@hapi/vision'));
     await server.register(require('@hapi/cookie'));
-    await server.register({
+    /*await server.register({
         plugin: require('disinfect'),
         options: {
             disinfectQuery: true,
             disinfectParams: true,
             disinfectPayload: true
         }
-    });
+    });*/
 
     server.validator(require('@hapi/joi'))
 

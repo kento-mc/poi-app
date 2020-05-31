@@ -56,6 +56,13 @@ const PointsOfInterest = {
             }
             return Boom.notFound('id not found');
         }
+    },
+
+    uploadImage: {
+        auth:false,
+        handler: async function(request, h) {
+
+        }
     }
 };
 
