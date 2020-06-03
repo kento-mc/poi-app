@@ -43,7 +43,6 @@ const PointsOfInterest = {
         auth: false,
         handler: async function(request, h) {
             try {
-                const oldPoi = await PointOfInterest.findOne({_id: request.params.id});
                 await PointOfInterest.updateOne(
                     {_id: request.params.id},
                     {
