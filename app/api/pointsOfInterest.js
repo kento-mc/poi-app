@@ -39,6 +39,36 @@ const PointsOfInterest = {
         }
     },
 
+    update: {
+        auth: false,
+        handler: async function(request, h) {
+            try {
+                const oldPoi = await PointOfInterest.findOne({_id: request.params.id});
+                await PointOfInterest.updateOne(
+                    {_id: request.params.id},
+                    {
+                        $set: {
+                            name: request.payload.name,
+                            description: request.payload.description,
+                            location: {
+                                lat: request.payload.lat,
+                                lon: request.payload.lon
+                            },
+                            thumbnailURL: request.payload.thumbnailURL,
+                        }
+                    }
+                );
+                const poi = await PointOfInterest.findOne({_id: request.params.id});
+                if (!poi) {
+                    return Boom.notFound('No point of interest with this id');
+                }
+                return poi;
+            } catch (err) {
+                return Boom.notFound('No point of interest with this id');
+            }
+        }
+    },
+
     deleteAll: {
         auth: false,
         handler: async function(request, h) {

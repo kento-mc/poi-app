@@ -6,6 +6,7 @@ module.exports = [
     { method: 'GET', path: '/api/pois', config: PointsOfInterest.find },
     { method: 'GET', path: '/api/pois/{id}', config: PointsOfInterest.findOne },
     { method: 'POST', path: '/api/pois', config: PointsOfInterest.create },
+    { method: 'PUT', path: '/api/pois/{id}/update', config: PointsOfInterest.update },
     { method: 'DELETE', path: '/api/pois/{id}', config: PointsOfInterest.deleteOne },
     { method: 'DELETE', path: '/api/pois', config: PointsOfInterest.deleteAll },
 
