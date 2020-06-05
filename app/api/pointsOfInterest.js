@@ -42,6 +42,7 @@ const PointsOfInterest = {
     update: {
         auth: false,
         handler: async function(request, h) {
+            const poi = await PointOfInterest.findOne({_id: request.params.id});
             try {
                 await PointOfInterest.updateOne(
                     {_id: request.params.id},
@@ -54,6 +55,7 @@ const PointsOfInterest = {
                                 lon: request.payload.lon
                             },
                             thumbnailURL: request.payload.thumbnailURL,
+                            imageURL: request.payload.imageURL ? request.payload.imageURL : poi.imageURL
                         }
                     }
                 );
@@ -80,7 +82,7 @@ const PointsOfInterest = {
         auth: false,
         handler: async function(request, h) {
             const response = await PointOfInterest.deleteOne({ _id: request.params.id });
-            if (response.deletedCount ==1) {
+            if (response.deletedCount == 1) {
                 return { success: true };
             }
             return Boom.notFound('id not found');
