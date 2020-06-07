@@ -1,5 +1,5 @@
 {
-  "poiService": "http://localhost:3000",
+  "poiService": "https://enigmatic-lowlands-42374.herokuapp.com",
   "users": [
     {
       "firstName": "Homer",

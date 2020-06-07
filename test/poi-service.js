@@ -1,7 +1,7 @@
 'use strict';
 
 const axios = require('axios');
-const baseUrl = 'http://localhost:3000';
+const baseUrl = '';
 
 class POIService {
     constructor(baseUrl) {
