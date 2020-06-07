@@ -5,7 +5,9 @@ const PointOfInterest = require('../models/pointOfInterest');
 
 const PointsOfInterest = {
     find: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const pois = await PointOfInterest.find();
             return pois;
@@ -13,7 +15,9 @@ const PointsOfInterest = {
     },
 
     findOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             try {
                 const poi = await PointOfInterest.findOne({_id: request.params.id});
@@ -28,7 +32,9 @@ const PointsOfInterest = {
     },
 
     create: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const newPOI = new PointOfInterest(request.payload);
             const poi = await newPOI.save();
@@ -40,7 +46,9 @@ const PointsOfInterest = {
     },
 
     update: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const poi = await PointOfInterest.findOne({_id: request.params.id});
             try {
@@ -71,7 +79,9 @@ const PointsOfInterest = {
     },
 
     deleteAll: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             await PointOfInterest.deleteMany({});
             return { success: true };
@@ -79,7 +89,9 @@ const PointsOfInterest = {
     },
 
     deleteOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const response = await PointOfInterest.deleteOne({ _id: request.params.id });
             if (response.deletedCount == 1) {
@@ -90,7 +102,9 @@ const PointsOfInterest = {
     },
 
     uploadImage: {
-        auth:false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
 
         }
