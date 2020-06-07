@@ -97,17 +97,27 @@
     }
   ],
   "newUser": {
-    "firstName": "Lisa",
+    "firstName": "Poochie",
     "lastName": "Simpson",
-    "fullName": "Lisa Simpson",
-    "email": "lisa@simpson.com",
+    "fullName": "Poochie Simpson",
+    "email": "poochie@simpson.com",
+    "password": "secret",
+    "isAdmin": false,
+    "customCategories": 0,
+    "contributedPOIs": 0
+  },
+  "newAdminUser": {
+    "firstName": "Ranier",
+    "lastName": "Wolfcastle",
+    "fullName": "Ranier Wolfcastle",
+    "email": "ranier@simpson.com",
     "password": "secret",
     "isAdmin": false,
     "customCategories": 0,
     "contributedPOIs": 2
   },
   "newCategory": {
-    "name": "Historic Site",
+    "name": "NEW Historic Site",
     "description": "Historic place",
     "contributor": null
   },

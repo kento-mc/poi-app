@@ -9,26 +9,47 @@ suite('Category API tests', function() {
     let categories = fixtures.categories;
     let users = fixtures.users;
     let newUser = fixtures.newUser;
+    let newAdminUser = fixtures.newAdminUser;
+    let newCategory = fixtures.newCategory;
 
     const poiService = new POIService(fixtures.poiService);
 
-    setup(async function() {
+    suiteSetup(async function() {
         await poiService.deleteAllUsers();
+        const returnedUser = await poiService.createUser(newUser);
+        const response = await poiService.authenticate(newUser);
+    });
+
+    suiteTeardown(async function() {
+        await poiService.deleteAllUsers();
+        poiService.clearAuth();
+    });
+
+    setup(async function() {
         await poiService.deleteAllCategories();
     });
 
     teardown(async function() {
-        await poiService.deleteAllUsers();
         await poiService.deleteAllCategories();
     });
 
     test('create a category', async function() {
         const returnedUser = await poiService.createUser(newUser);
-        categories[0].contributor = returnedUser._id;
-        await poiService.createCategory(returnedUser._id, categories[0]);
-        const returnedCategories = await poiService.getCategories(returnedUser._id);
+        newCategory.contributor = returnedUser._id;
+        const newCat = await poiService.createCategory(returnedUser._id, newCategory);
+        const returnedCategories = await poiService.getCategories();
         assert.equal(returnedCategories.length, 1);
-        assert(_.some([returnedCategories[0]], categories[0]), 'returned category must be a superset of category');
+        assert(_.some([returnedCategories[0]], newCategory), 'returned category must be a superset of category');
+    });
+
+    test('create a category and check contributor', async function() {
+        const returnedUser = await poiService.createUser(newUser);
+        await poiService.createCategory(returnedUser._id, newCategory);
+        const returnedCategories = await poiService.getCategories();
+        assert.isDefined(returnedCategories[0].contributor);
+
+        const user = await poiService.getUser(returnedCategories[0].contributor);
+        assert.equal(user._id, returnedUser._id);
     });
 
     test('create multiple categories', async function() {
@@ -59,10 +80,12 @@ suite('Category API tests', function() {
     test('get default categories', async function() {
         const returnedUser = await poiService.createUser(newUser);
         for (let i = 0; i < categories.length; i++) {
+            categories[i].contributor = returnedUser._id;
             await poiService.createCategory(returnedUser._id, categories[i]);
         }
-        const adminUser = await poiService.createUser(newUser);
+        const adminUser = await poiService.createUser(newAdminUser);
         for (let i = 0; i < 2; i++) {
+            categories[i].contributor = adminUser._id;
             await poiService.createCategory(adminUser._id, categories[i]);
         }
         const allCs = await poiService.getCategories();

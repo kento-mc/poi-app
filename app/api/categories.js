@@ -1,12 +1,15 @@
 'use strict';
 
+const utils = require('./utils.js');
 const Category = require('../models/category');
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 
 const Categories = {
     findAll: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function (request, h) {
             const categories = await Category.find();
             return categories;
@@ -14,7 +17,9 @@ const Categories = {
     },
 
     findOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function (request, h) {
             const category = await Category.findOne().where({_id: request.params.id});
             return category;
@@ -22,7 +27,9 @@ const Categories = {
     },
 
     findDefaults: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const categories = await Category.find({ contributor: request.params.id });
             return categories;
@@ -30,7 +37,9 @@ const Categories = {
     },
 
     findByUser: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const categories = await Category.find({ contributor: request.params.id });
             return categories;
@@ -38,21 +47,26 @@ const Categories = {
     },
 
     create: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
-            let category = new Category(request.payload);
+            const userId = utils.getUserIdFromRequest(request);
+            const category = new Category(request.payload);
             const user = await User.findOne({ _id: request.params.id });
             if (!user) {
                 return Boom.notFound('No user with this id');
             }
             category.contributor = user._id;
-            category = await category.save();
+            await category.save();
             return category;
         }
     },
 
     deleteOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const response = await Category.deleteOne({ _id: request.params.id });
             if (response.deletedCount === 1) {
@@ -63,13 +77,14 @@ const Categories = {
     },
 
     deleteAll: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function (request, h) {
             await Category.deleteMany({});
             return {success: true};
         }
     }
-
 };
 
 module.exports = Categories;

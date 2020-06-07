@@ -6,6 +6,7 @@ module.exports = [
     { method: 'GET', path: '/api/pois', config: PointsOfInterest.find },
     { method: 'GET', path: '/api/pois/{id}', config: PointsOfInterest.findOne },
     { method: 'POST', path: '/api/pois', config: PointsOfInterest.create },
+    { method: 'PUT', path: '/api/pois/{id}/update', config: PointsOfInterest.update },
     { method: 'DELETE', path: '/api/pois/{id}', config: PointsOfInterest.deleteOne },
     { method: 'DELETE', path: '/api/pois', config: PointsOfInterest.deleteAll },
 
@@ -14,6 +15,7 @@ module.exports = [
     { method: 'POST', path: '/api/users', config: Users.create },
     { method: 'DELETE', path: '/api/users/{id}', config: Users.deleteOne },
     { method: 'DELETE', path: '/api/users', config: Users.deleteAll },
+    { method: 'POST', path: '/api/users/authenticate', config: Users.authenticate },
 
     { method: 'GET', path: '/api/categories', config: Categories.findAll },
     { method: 'GET', path: '/api/categories/{id}', config: Categories.findOne },

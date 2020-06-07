@@ -1,12 +1,34 @@
 'use strict';
 
+const utils = require('./utils.js');
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 
 const Users = {
 
-    find: {
+    authenticate: {
         auth: false,
+        handler: async function (request, h) {
+            try {
+                const user = await User.findOne({email: request.payload.email});
+                if (!user) {
+                    return Boom.unauthorized('User not found');
+                } else if (user.password !== request.payload.password) {
+                    return Boom.unauthorized('Invalid password');
+                } else {
+                    const token = utils.createToken(user);
+                    return h.response({success: true, token: token}).code(201);
+                }
+            } catch (err) {
+                return Boom.notFound('internal db failure');
+            }
+        }
+    },
+
+    find: {
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const users = await User.find();
             return users;
@@ -14,7 +36,9 @@ const Users = {
     },
 
     findOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             try {
                 const user = await User.findOne({ _id: request.params.id });
@@ -32,6 +56,10 @@ const Users = {
         auth: false,
         handler: async function(request, h) {
             const newUser = new User(request.payload);
+            newUser.fullName = newUser.firstName + ' ' + newUser.lastName;
+            newUser.isAdmin = false;
+            newUser.contributedPOIs = 0;
+            newUser.customCategories = 0;
             const user = await newUser.save();
             if (user) {
                 return h.response(user).code(201);
@@ -41,7 +69,9 @@ const Users = {
     },
 
     deleteAll: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             await User.deleteMany({});
             return { success: true };
@@ -49,7 +79,9 @@ const Users = {
     },
 
     deleteOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const user = await User.deleteOne({ _id: request.params.id });
             if (user) {

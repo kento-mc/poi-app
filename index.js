@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('@hapi/hapi');
+const utils = require('./app/api/utils')
 require('dotenv').config();
 require('./app/models/db');
 const ImageStore = require('./app/utils/image-store');
@@ -13,20 +14,23 @@ const cloudinaryCredentials = {
 
 const server = Hapi.server({
     port: process.env.PORT || 3000,
+    routes: { cors: true }
 });
 
 async function init() {
     await server.register(require('@hapi/inert'));
     await server.register(require('@hapi/vision'));
     await server.register(require('@hapi/cookie'));
-    await server.register({
+    await server.register(require('hapi-auth-jwt2'));
+
+    /*await server.register({
         plugin: require('disinfect'),
         options: {
             disinfectQuery: true,
             disinfectParams: true,
             disinfectPayload: true
         }
-    });
+    });*/
 
     server.validator(require('@hapi/joi'))
 
@@ -52,6 +56,12 @@ async function init() {
             isSecure: false
         },
         redirectTo: '/',
+    });
+
+    server.auth.strategy('jwt', 'jwt', {
+        key: 'secretpasswordnotrevealedtoanyone',
+        validate: utils.validate,
+        verifyOptions: { algorithms: ['HS256'] },
     });
 
     server.auth.default('session');

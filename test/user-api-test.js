@@ -12,12 +12,15 @@ suite('User API tests', function () {
 
     const poiService = new POIService(fixtures.poiService);
 
-    setup(async function () {
+    suiteSetup(async function() {
         await poiService.deleteAllUsers();
+        const returnedUser = await poiService.createUser(newUser);
+        const response = await poiService.authenticate(newUser);
     });
 
-    teardown(async function () {
+    suiteTeardown(async function() {
         await poiService.deleteAllUsers();
+        poiService.clearAuth();
     });
 
     test('create a user', async function () {
@@ -49,28 +52,53 @@ suite('User API tests', function () {
     });
 
     test('get all users', async function () {
+        await poiService.deleteAllUsers();
+        await poiService.createUser(newUser);
+        await poiService.authenticate(newUser);
         for (let u of users) {
             await poiService.createUser(u);
         }
 
         const allUsers = await poiService.getUsers();
-        assert.equal(allUsers.length, users.length);
+        assert.equal(allUsers.length, users.length + 1);
     });
 
-    test('get users detail', async function () {
+    test('get users detail', async function() {
+        await poiService.deleteAllUsers();
+        const user = await poiService.createUser(newUser);
+        await poiService.authenticate(newUser);
         for (let u of users) {
             await poiService.createUser(u);
         }
 
+        const testUser = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            fullName: user.fullName,
+            email: user.email,
+            password: user.password,
+            isAdmin: user.isAdmin,
+            customCategories: user.customCategories,
+            contributedPOIs: user.contributedPOIs
+        };
+        users.unshift(testUser);
         const allUsers = await poiService.getUsers();
-        for (var i = 0; i < users.length; i++) {
-            assert(_.some([allUsers[i]], users[i]), 'returnedUser must be a superset of newUser');
+        for (let i = 0; i < users.length; i++) {
+            assert.equal(allUsers[i].firstName, users[i].firstName);
+            assert.equal(allUsers[i].lastName, users[i].lastName);
+            assert.equal(allUsers[i].fullName, users[i].fullName);
+            assert.equal(allUsers[i].email, users[i].email);
+            assert.equal(allUsers[i].password, users[i].password);
+            assert.equal(allUsers[i].isAdmin, users[i].isAdmin);
         }
     });
 
-    test('get all users empty', async function () {
+    test('get all users empty', async function() {
+        await poiService.deleteAllUsers();
+        const user = await poiService.createUser(newUser);
+        await poiService.authenticate(newUser);
         const allUsers = await poiService.getUsers();
-        assert.equal(allUsers.length, 0);
+        assert.equal(allUsers.length, 1);
     });
 
 });
