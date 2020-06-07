@@ -48,8 +48,8 @@ suite('Category API tests', function() {
         const returnedCategories = await poiService.getCategories();
         assert.isDefined(returnedCategories[0].contributor);
 
-        const users = await poiService.getUsers();
-        assert(_.some([users[0]], newUser), 'returnedUser must be a superset of newUser');
+        const user = await poiService.getUser(returnedCategories[0].contributor);
+        assert.equal(user._id, returnedUser._id);
     });
 
     test('create multiple categories', async function() {

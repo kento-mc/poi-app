@@ -56,6 +56,10 @@ const Users = {
         auth: false,
         handler: async function(request, h) {
             const newUser = new User(request.payload);
+            newUser.fullName = newUser.firstName + ' ' + newUser.lastName;
+            newUser.isAdmin = false;
+            newUser.contributedPOIs = 0;
+            newUser.customCategories = 0;
             const user = await newUser.save();
             if (user) {
                 return h.response(user).code(201);

@@ -74,13 +74,22 @@ suite('User API tests', function () {
         const testUser = {
             firstName: user.firstName,
             lastName: user.lastName,
+            fullName: user.fullName,
             email: user.email,
-            password: user.password
+            password: user.password,
+            isAdmin: user.isAdmin,
+            customCategories: user.customCategories,
+            contributedPOIs: user.contributedPOIs
         };
         users.unshift(testUser);
         const allUsers = await poiService.getUsers();
         for (let i = 0; i < users.length; i++) {
-            assert(_.some([allUsers[i]], users[i]), 'returnedUser must be a superset of newUser');
+            assert.equal(allUsers[i].firstName, users[i].firstName);
+            assert.equal(allUsers[i].lastName, users[i].lastName);
+            assert.equal(allUsers[i].fullName, users[i].fullName);
+            assert.equal(allUsers[i].email, users[i].email);
+            assert.equal(allUsers[i].password, users[i].password);
+            assert.equal(allUsers[i].isAdmin, users[i].isAdmin);
         }
     });
 
