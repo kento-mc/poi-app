@@ -32,38 +32,6 @@
       "contributedPOIs": 3
     }
   ],
-  "freshUsers": [
-    {
-      "firstName": "Homer2",
-      "lastName": "Simpson",
-      "fullName": "Homer Simpson",
-      "email": "homer2@simpson.com",
-      "password": "secret",
-      "isAdmin": false,
-      "customCategories": 0,
-      "contributedPOIs": 0
-    },
-    {
-      "firstName": "Marge2",
-      "lastName": "Simpson",
-      "fullName": "Marge Simpson",
-      "email": "marge2@simpson.com",
-      "password": "secret",
-      "isAdmin": false,
-      "customCategories": 0,
-      "contributedPOIs": 0
-    },
-    {
-      "firstName": "Bart2",
-      "lastName": "Simpson",
-      "fullName": "Bart Simpson",
-      "email": "bart2@simpson.com",
-      "password": "secret",
-      "isAdmin": false,
-      "customCategories": 0,
-      "contributedPOIs": 0
-    }
-  ],
   "categories": [
     {
       "name": "Dining",
