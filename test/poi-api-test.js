@@ -14,7 +14,7 @@ suite('POI API tests', () => {
     let categories = fixtures.categories;
     let newCategory = fixtures.newCategory;
 
-    const poiService = new POIService('http://localhost:3000');
+    const poiService = new POIService(fixtures.poiService);
 
     suiteSetup(async function() {
         await poiService.deleteAllUsers();
