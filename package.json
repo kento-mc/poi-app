@@ -30,7 +30,7 @@
     "dotenv": "^8.2.0",
     "handlebars": "^4.7.6",
     "hapi-auth-jwt2": "^10.1.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.15",
     "mais-mongoose-seeder": "^1.0.7",
     "minimist": ">=1.2.5",
